@@ -1,0 +1,4 @@
+CompileFlags:
+    Add:
+    - -I/nix/var/nix/profiles/per-user/human/profile/include
+    - -std=c++20

@@ -10,6 +10,7 @@ CURDIR := $(shell pwd)
 
 .DEFAULT_GOAL := debug
 
+.PHONY: default debug profile
 default:
 	cmake -B build -G Ninja -DBUILD_LAB=$(lab) -DCMAKE_CXX_FLAGS="$(CFLAGS)" .
 	cmake --build build
@@ -25,9 +26,10 @@ profile:
 	cmake --build build
 	ln -sf $(CURDIR)/build/$(LAB)/$(EXE) $(CURDIR)/build/main
 	cd build && ./main
-	cd build && gprof main gmon.out | gprof2dot | dot -Tpdf -o output.pdf
+	cd build && gprof main gmon.out | gprof2dot -s -w | dot -Tpdf -o output.pdf
 	zathura build/output.pdf
 
+.PHONY: run dbg
 run:
 	@# Run from build directory, not from current (to not generate gmon.out
 	@# here in case of profiling).
@@ -36,7 +38,6 @@ run:
 dbg:
 	cgdb build/main
 
+.PHONY: clean
 clean:
 	rm -rf build
-
-.PHONY: default, debug, profile, run, dbg, clean

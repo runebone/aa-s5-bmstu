@@ -2,20 +2,16 @@
 
 #include <algorithm>
 
-/* static u32 get_length(char *str) { */
-/*     u32 len = 0; */
-/*     for (u32 i = 0; str[i]; i++, len++); */
-/*     return len; */
-/* } */
+static u32 d_rec(const char *str1, const char *str2, u32 i, u32 j) {
+    if (i == 0) { return j; } else if (j == 0) { return i; }
 
-using std::swap;
+    u32 d1 = d_rec(str1, str2, i, j - 1) + 1;
+    u32 d2 = d_rec(str1, str2, i - 1, j) + 1;
+    u32 m = str1[i] == str2[j] ? 0 : 1;
+    u32 d3 = d_rec(str1, str2, i - 1, j - 1) + m;
 
-struct Data {
-    const char *str1;
-    const char *str2;
-    u32 *row1;
-    u32 *row2;
-};
+    return std::min(d1, std::min(d2, d3));
+}
 
 static u32 dl(Data &data, u32 col) {
     // XXX: col = 0?; ugly

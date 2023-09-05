@@ -2,19 +2,21 @@
 
 #include <algorithm>
 
-static u32 d_rec(const char *str1, const char *str2, u32 i, u32 j) {
+static u32 d_lev_rec(const char *str1, const char *str2, u32 i, u32 j) {
     if (i == 0) { return j; } else if (j == 0) { return i; }
 
-    u32 d1 = d_rec(str1, str2, i, j - 1) + 1;
-    u32 d2 = d_rec(str1, str2, i - 1, j) + 1;
+    u32 d1 = d_lev_rec(str1, str2, i, j - 1) + 1;
+    u32 d2 = d_lev_rec(str1, str2, i - 1, j) + 1;
     u32 m = str1[i] == str2[j] ? 0 : 1;
-    u32 d3 = d_rec(str1, str2, i - 1, j - 1) + m;
+    u32 d3 = d_lev_rec(str1, str2, i - 1, j - 1) + m;
 
-    return std::min(d1, std::min(d2, d3));
+    u32 min = std::min(d1, std::min(d2, d3));
+
+    return min;
 }
 
 u32 lev_recursive(const char *str1, u32 len1, const char *str2, u32 len2) {
-    return d_rec(str1, str2, len1, len2);
+    return d_lev_rec(str1, str2, len1, len2);
 }
 
 u32 lev_iterative(const char *str1, u32 len1, const char *str2, u32 len2) {
@@ -81,6 +83,23 @@ u32 damlev_iterative_with_matrix(const char *str1, u32 len1, const char *str2, u
     }
 
     return matrix[len1][len2];
+}
+
+static u32 d_damlev_rec(const char *str1, const char *str2, u32 i, u32 j) {
+    if (i == 0) { return j; } else if (j == 0) { return i; }
+
+    u32 d1 = d_damlev_rec(str1, str2, i, j - 1) + 1;
+    u32 d2 = d_damlev_rec(str1, str2, i - 1, j) + 1;
+    u32 m = str1[i] == str2[j] ? 0 : 1;
+    u32 d3 = d_damlev_rec(str1, str2, i - 1, j - 1) + m;
+
+    u32 min = std::min(d1, std::min(d2, d3));
+
+    if (i > 1 && j > 1) {
+        min = std::min(min, d_damlev_rec(str1, str2, i - 2, j - 2) + 1);
+    }
+
+    return min;
 }
 
 u32 damlev_recursive_no_cache(const char *str1, u32 len1, const char *str2, u32 len2) {

@@ -13,39 +13,37 @@ static u32 d_rec(const char *str1, const char *str2, u32 i, u32 j) {
     return std::min(d1, std::min(d2, d3));
 }
 
-static u32 dl(Data &data, u32 col) {
-    // XXX: col = 0?; ugly
-    char letter_vert = data.str1[data.row2[0] + 1];
-    char letter_hor = data.str2[col]; // col = 0 => 1st letter
-
-    u32 top_left = data.row1[col];
-    u32 top_right = data.row1[col + 1];
-    u32 bottom_left = data.row2[col];
-
-    /* u32 step_right_insert = bottom_left + 1; */
-    u32 x = bottom_left + 1;
-
-    /* u32 step_down_delete = top_right + 1; */
-    u32 y = top_right + 1;
-
-    /* u32 step_diagonal = top_left + (letter_vert == letter_hor ? 0 : 1); */
-    u32 z = top_left + (letter_vert == letter_hor ? 0 : 1);
-
-    u32 min3 = (x < y ? (x < z ? x : z) : (y < z ? y : z));
-
-    return min3;
+u32 lev_recursive(const char *str1, u32 len1, const char *str2, u32 len2) {
+    return d_rec(str1, str2, len1, len2);
 }
 
-// FIXME: not working correctly
 u32 lev_iterative(const char *str1, u32 len1, const char *str2, u32 len2) {
-    if (len1 == 0) {
-        return len2;
-    } else if (len2 == 0) {
-        return len1;
+    if (len1 == 0) { return len2; } else if (len2 == 0) { return len1; }
+
+    u32 matrix[len1 + 1][len2 + 1];
+
+    for (u32 i = 0; i <= len2; i++) {
+        matrix[0][i] = i;
     }
 
-    u32 row1[len2 + 1];
-    u32 row2[len2 + 1];
+    for (u32 i = 0; i <= len1; i++) {
+        matrix[i][0] = i;
+    }
+
+    for (u32 row = 1; row <= len1; row++) {
+        for (u32 col = 1; col <= len2; col++) {
+            u32 tl = matrix[row - 1][col - 1] + (str1[row - 1] == str2[col - 1] ? 0 : 1);
+            u32 bl = matrix[row][col - 1] + 1;
+            u32 tr = matrix[row - 1][col] + 1;
+
+            u32 min = std::min(tl, std::min(bl, tr));
+
+            matrix[row][col] = min;
+        }
+    }
+
+    return matrix[len1][len2];
+}
 
     for (u32 i = 0; i <= len2; row1[i] = i, i++);
     row2[0] = 1;

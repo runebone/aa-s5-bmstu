@@ -19,12 +19,12 @@ default:
 debug:
 	cmake -B build -G Ninja -DBUILD_LAB=$(lab) -DCMAKE_CXX_FLAGS="$(CFLAGS) -O0 -g" -DCMAKE_EXE_LINKER_FLAGS="-g" .
 	cmake --build build
-	ln -sf $(CURDIR)/build/$(LAB)/$(EXE) $(CURDIR)/build/main
+	ln -f $(CURDIR)/build/$(LAB)/$(EXE) $(CURDIR)/build/main
 
 profile:
 	cmake -B build -G Ninja -DBUILD_LAB=$(lab) -DCMAKE_CXX_FLAGS="$(CFLAGS) -O0 -pg" -DCMAKE_EXE_LINKER_FLAGS="-g" .
 	cmake --build build
-	ln -sf $(CURDIR)/build/$(LAB)/$(EXE) $(CURDIR)/build/main
+	ln -f $(CURDIR)/build/$(LAB)/$(EXE) $(CURDIR)/build/main
 	cd build && ./main
 	cd build && gprof main gmon.out | gprof2dot -s -w | dot -Tpdf -o output.pdf
 	zathura build/output.pdf

@@ -5,9 +5,7 @@
 #include "errors.h"
 
 #include <functional>
-template<typename T>
-using func = std::function<T>;
-using callback_t = func<err_t()>;
+using callback_t = std::function<err_t()>;
 
 #include <vector>
 template<typename T>

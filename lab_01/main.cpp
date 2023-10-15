@@ -263,6 +263,9 @@ int levenshtein_iterative_matrix(const wchar_t *s1, const wchar_t *s2)
     size_t len1 = wcsnlen(s1, BUFSIZE); // n_rows
     size_t len2 = wcsnlen(s2, BUFSIZE); // n_columns
 
+    if (len1 == 0) return len2;
+    if (len2 == 0) return len1;
+
     size_t **matrix = create_matrix(2, len2);
     size_t *first_row = matrix[0];
 
@@ -288,8 +291,6 @@ int levenshtein_iterative_matrix(const wchar_t *s1, const wchar_t *s2)
 
     result = matrix[0][len2 - 1];
 
-    /* wprintf(L"%d\n", result); */
-
     free_matrix(matrix, first_row);
 
     return result;
@@ -299,6 +300,9 @@ int levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *s2)
 {
     size_t len1 = wcsnlen(s1, BUFSIZE); // n_rows
     size_t len2 = wcsnlen(s2, BUFSIZE); // n_columns
+
+    if (len1 == 0) return len2;
+    if (len2 == 0) return len1;
 
     size_t **matrix = create_matrix(len1, len2);
 
@@ -346,6 +350,9 @@ int damerau_levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *
 {
     size_t len1 = wcsnlen(s1, BUFSIZE);
     size_t len2 = wcsnlen(s2, BUFSIZE);
+
+    if (len1 == 0) return len2;
+    if (len2 == 0) return len1;
 
     size_t **matrix = create_matrix(len1, len2);
     if (matrix == NULL) return -1;
@@ -436,7 +443,7 @@ int main()
         {
             rc = input_strings(s1, s2);
 
-            levenshtein_iterative_matrix(s1, s2);
+            /* levenshtein_iterative_matrix(s1, s2); */
             levenshtein_iterative_full_matrix(s1, s2);
             damerau_levenshtein_iterative_full_matrix(s1, s2);
         }

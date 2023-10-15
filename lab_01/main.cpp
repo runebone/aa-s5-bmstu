@@ -6,6 +6,7 @@
 #include <vector>
 
 #define BUFSIZE 255
+#define U_INF -1 // Unsigned infinity
 
 void pm(size_t **matrix, size_t r, size_t c);
 void print_matrix_and_strings(size_t **matrix, size_t r, size_t c, const wchar_t *s1, const wchar_t *s2);
@@ -153,16 +154,16 @@ size_t *min4(size_t *a, size_t *b, size_t *c, size_t *d)
     return result;
 }
 
-void print_trace(size_t **matrix, size_t r, size_t c)
+void print_lev_trace(size_t **matrix, size_t r, size_t c)
 {
     std::vector<char> trace;
     size_t *who;
 
     for (int i = r - 1, j = c - 1; (i + j) > 0;)
     {
-        size_t left = (j > 0) ? matrix[i][j - 1] : -1;
-        size_t diag = (i > 0 && j > 0) ? matrix[i - 1][j - 1] : -1;
-        size_t up = (i > 0) ? matrix[i - 1][j] : -1;
+        size_t left = (j > 0) ? matrix[i][j - 1] : U_INF;
+        size_t diag = (i > 0 && j > 0) ? matrix[i - 1][j - 1] : U_INF;
+        size_t up = (i > 0) ? matrix[i - 1][j] : U_INF;
 
         who = min3(&left, &diag, &up);
 
@@ -188,6 +189,64 @@ void print_trace(size_t **matrix, size_t r, size_t c)
         {
             trace.push_back('D');
             --i;
+        }
+    }
+
+    for (size_t i = 0; i < trace.size(); i++)
+    {
+        wprintf(L"%lc", trace.at(trace.size() - 1 - i));
+    }
+    wprintf(L"\n");
+}
+
+void print_damlev_trace(size_t **matrix, size_t r, size_t c, const wchar_t *s1, const wchar_t *s2)
+{
+    std::vector<char> trace;
+    size_t *who;
+
+    for (int i = r - 1, j = c - 1; (i + j) > 0;)
+    {
+        size_t left = (j > 0) ? matrix[i][j - 1] : U_INF;
+        size_t diag = (i > 0 && j > 0) ? matrix[i - 1][j - 1] : U_INF;
+        size_t up = (i > 0) ? matrix[i - 1][j] : U_INF;
+        size_t swap = (i >= 2 && j >= 2)
+            ? (
+                    (s1[i] == s2[j - 1] && s1[i - 1] == s2[j])
+                    ? matrix[i - 2][j - 2]
+                    : U_INF
+              )
+            : U_INF;
+
+        who = min4(&left, &diag, &up, &swap);
+
+        if (*who == diag)
+        {
+            if (matrix[i][j] == diag)
+            {
+                trace.push_back('M');
+            }
+            else
+            {
+                trace.push_back('R');
+            }
+            --i;
+            --j;
+        }
+        else if (*who == left)
+        {
+            trace.push_back('I');
+            --j;
+        }
+        else if (*who == up)
+        {
+            trace.push_back('D');
+            --i;
+        }
+        else
+        {
+            trace.push_back('S');
+            i -= 2;
+            j -= 2;
         }
     }
 
@@ -266,7 +325,7 @@ int levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *s2)
 
     // Printing stuff
     print_matrix_and_strings(matrix, len1, len2, s1, s2);
-    print_trace(matrix, len1, len2);
+    print_lev_trace(matrix, len1, len2);
     wprintf(L"%d\n", result);
 
     free_matrix(matrix, matrix[0]);
@@ -274,13 +333,59 @@ int levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *s2)
     return result;
 }
 
-int damerau_levenshtein_iterative_matrix(const wchar_t *s1, const wchar_t *s2)
+/* int damerau_levenshtein_iterative_matrix(const wchar_t *s1, const wchar_t *s2) */
+/* { */
+/*     size_t len1 = wcsnlen(s1, BUFSIZE); */
+/*     size_t len2 = wcsnlen(s2, BUFSIZE); */
+/*     (void)len1; */
+/*     (void)len2; */
+/*     return 0; */
+/* } */
+
+int damerau_levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *s2)
 {
     size_t len1 = wcsnlen(s1, BUFSIZE);
     size_t len2 = wcsnlen(s2, BUFSIZE);
-    (void)len1;
-    (void)len2;
-    return 0;
+
+    size_t **matrix = create_matrix(len1, len2);
+    if (matrix == NULL) return -1;
+    int result = 0;
+
+    bool diag_cond, swap_cond;
+    size_t insert_cost, delete_cost, replace_cost, swap_cost, *who;
+
+    for (size_t i = 1; i < len1; i++)
+    {
+        for (size_t j = 1; j < len2; j++)
+        {
+            insert_cost = matrix[i - 1][j] + 1;
+            delete_cost = matrix[i][j - 1] + 1;
+            diag_cond = (s1[i] == s2[j]);
+            replace_cost = matrix[i - 1][j - 1] + (diag_cond ? 0 : 1);
+            if (i >= 2 && j >= 2) [[likely]]
+            {
+                swap_cond = (s1[i] == s2[j - 1] && s1[i - 1] == s2[j]);
+                swap_cost = swap_cond ? matrix[i - 2][j - 2] + 1 : U_INF;
+                who = min4(&insert_cost, &delete_cost, &replace_cost, &swap_cost);
+            }
+            else
+            {
+                who = min3(&insert_cost, &delete_cost, &replace_cost);
+            }
+            matrix[i][j] = *who;
+        }
+    }
+
+    result = matrix[len1 - 1][len2 - 1];
+
+    // Printing stuff
+    print_matrix_and_strings(matrix, len1, len2, s1, s2);
+    print_damlev_trace(matrix, len1, len2, s1, s2);
+    wprintf(L"%d\n", result);
+
+    free_matrix(matrix, matrix[0]);
+
+    return result;
 }
 
 int damerau_levenshtein_recursive_no_cache(const wchar_t *s1, const wchar_t *s2)
@@ -333,6 +438,7 @@ int main()
 
             levenshtein_iterative_matrix(s1, s2);
             levenshtein_iterative_full_matrix(s1, s2);
+            damerau_levenshtein_iterative_full_matrix(s1, s2);
         }
         else if (c == 2)
         {

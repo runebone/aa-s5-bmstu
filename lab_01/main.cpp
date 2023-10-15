@@ -6,7 +6,7 @@
 #include <vector>
 
 #define BUFSIZE 255
-#define U_INF -1 // Unsigned infinity
+#define U_INF -1U // Unsigned infinity
 
 void pm(size_t **matrix, size_t r, size_t c);
 void print_matrix_and_strings(size_t **matrix, size_t r, size_t c, const wchar_t *str1, const wchar_t *str2);
@@ -359,8 +359,8 @@ size_t damerau_levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len
 
     size_t **matrix = create_matrix(len1, len2);
     if (matrix == NULL) return -1;
-    size_t result = 0;
 
+    size_t result = 0;
     bool replace_skip_cond, swap_cond;
     size_t insert_cost, delete_cost, replace_cost, swap_cost, *who;
 
@@ -400,12 +400,87 @@ size_t damerau_levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len
 
 size_t damerau_levenshtein_recursive_no_cache(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
 {
-    return 0;
+    if (len1 == 0) return len2;
+    if (len2 == 0) return len1;
+
+    size_t insert = damerau_levenshtein_recursive_no_cache(str1, len1, str2, len2 - 1) + 1;
+    size_t del = damerau_levenshtein_recursive_no_cache(str1, len1 - 1, str2, len2) + 1;
+    size_t replace = damerau_levenshtein_recursive_no_cache(str1, len1 - 1, str2, len2 - 1)
+        + (str1[len1 - 1] == str2[len2 - 1] ? 0 : 1);
+    size_t swap = (len1 >= 2 && len2 >= 2)
+        ? (
+                (str1[len1 - 1] == str2[len2 - 2] && str1[len1 - 2] == str2[len2 - 1])
+                ? damerau_levenshtein_recursive_no_cache(str1, len1 - 2, str2, len2 - 2) + 1
+                : U_INF
+          )
+        : U_INF;
+
+    return *min4(&insert, &del, &replace, &swap);
+}
+
+size_t damlev_rwc_helper(size_t **matrix, const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
+{
+    if (len1 == 0) return len2;
+    if (len2 == 0) return len1;
+
+    size_t i = len1 - 1;
+    size_t j = len2 - 1;
+
+    size_t insert = (((j > 0) && (matrix[i][j - 1] != U_INF))
+        ? matrix[i][j - 1]
+        : damlev_rwc_helper(matrix, str1, len1, str2, len2 - 1))
+        + 1;
+
+    size_t del = (((i > 0) && (matrix[i - 1][j] != U_INF))
+        ? matrix[i - 1][j]
+        : damlev_rwc_helper(matrix, str1, len1 - 1, str2, len2))
+        + 1;
+
+    size_t replace = (((i > 0 && j > 0) && (matrix[i - 1][j - 1] != U_INF))
+        ? matrix[i - 1][j - 1]
+        : damlev_rwc_helper(matrix, str1, len1 - 1, str2, len2 - 1))
+        + (str1[i] == str2[j] ? 0 : 1);
+
+    size_t swap = U_INF;
+    if (i > 1 && j > 1 && matrix[i - 2][j - 2] != U_INF)
+    {
+        swap = matrix[i - 2][j - 2] + 1;
+    }
+    else if (i >= 1 && j >= 1)
+    {
+        swap = damlev_rwc_helper(matrix, str1, len1 - 2, str2, len2 - 2) + 1;
+    }
+    // else swap = U_INF;
+
+    size_t result = *min4(&insert, &del, &replace, &swap);
+
+    if (matrix[i][j] == U_INF) matrix[i][j] = result;
+
+    return result;
 }
 
 size_t damerau_levenshtein_recursive_with_cache(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
 {
-    return 0;
+    if (len1 == 0) return len2;
+    if (len2 == 0) return len1;
+
+    size_t **matrix = create_matrix(len1, len2);
+
+    if (matrix == NULL) return -1;
+
+    for (size_t i = 0; i < len1; i++)
+    {
+        for (size_t j = 0; j < len2; j++)
+        {
+            matrix[i][j] = U_INF;
+        }
+    }
+
+    size_t result = damlev_rwc_helper(matrix, str1, len1, str2, len2);
+
+    free_matrix(matrix, matrix[0]);
+
+    return result;
 }
 
 int main()
@@ -441,9 +516,15 @@ int main()
             size_t len1 = wcsnlen(s1, BUFSIZE);
             size_t len2 = wcsnlen(s2, BUFSIZE);
 
-            /* levenshtein_iterative_matrix(s1, s2); */
-            levenshtein_iterative_full_matrix(s1, len1, s2, len2);
-            damerau_levenshtein_iterative_full_matrix(s1, len1, s2, len2);
+            size_t li = levenshtein_iterative_full_matrix(s1, len1, s2, len2);
+            size_t dli = damerau_levenshtein_iterative_full_matrix(s1, len1, s2, len2);
+            size_t dlr = damerau_levenshtein_recursive_no_cache(s1, len1, s2, len2);
+            size_t dlrc = damerau_levenshtein_recursive_with_cache(s1, len1, s2, len2);
+
+            wprintf(L"%-41ls: %ld\n", L"Levenshtein Iterative", li);
+            wprintf(L"%-41ls: %ld\n", L"Damerau-Levenshtein Iterative", dli);
+            wprintf(L"%-41ls: %ld\n", L"Damerau-Levenshtein Recursive No Cache", dlr);
+            wprintf(L"%-41ls: %ld\n", L"Damerau-Levenshtein Recursive With Cache", dlrc);
         }
         else if (c == 2)
         {

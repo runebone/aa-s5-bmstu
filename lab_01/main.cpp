@@ -256,7 +256,7 @@ void print_damlev_trace(size_t **matrix, size_t r, size_t c, const wchar_t *str1
 }
 
 // Algorithms
-int levenshtein_iterative_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
+size_t levenshtein_iterative_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
 {
     if (len1 == 0) return len2;
     if (len2 == 0) return len1;
@@ -272,7 +272,7 @@ int levenshtein_iterative_matrix(const wchar_t *str1, size_t len1, const wchar_t
 
     if (matrix == NULL) return -1;
 
-    int result = 0;
+    size_t result = 0;
     size_t insert_cost, delete_cost, replace_cost, *who;
     bool replace_skip_cond;
 
@@ -297,7 +297,7 @@ int levenshtein_iterative_matrix(const wchar_t *str1, size_t len1, const wchar_t
     return result;
 }
 
-int levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
+size_t levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
 {
     if (len1 == 0) return len2;
     if (len2 == 0) return len1;
@@ -312,7 +312,7 @@ int levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const wc
 
     if (matrix == NULL) return -1;
 
-    int result = 0;
+    size_t result = 0;
     bool replace_skip_cond;
     size_t insert_cost, delete_cost, replace_cost, *who;
 
@@ -341,16 +341,12 @@ int levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const wc
     return result;
 }
 
-/* int damerau_levenshtein_iterative_matrix(const wchar_t *s1, const wchar_t *s2) */
+/* size_t damerau_levenshtein_iterative_matrix(const wchar_t *s1, const wchar_t *s2) */
 /* { */
-/*     size_t len1 = wcsnlen(s1, BUFSIZE); */
-/*     size_t len2 = wcsnlen(s2, BUFSIZE); */
-/*     (void)len1; */
-/*     (void)len2; */
 /*     return 0; */
 /* } */
 
-int damerau_levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
+size_t damerau_levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
 {
     if (len1 == 0) return len2;
     if (len2 == 0) return len1;
@@ -363,7 +359,7 @@ int damerau_levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, 
 
     size_t **matrix = create_matrix(len1, len2);
     if (matrix == NULL) return -1;
-    int result = 0;
+    size_t result = 0;
 
     bool replace_skip_cond, swap_cond;
     size_t insert_cost, delete_cost, replace_cost, swap_cost, *who;
@@ -402,12 +398,12 @@ int damerau_levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, 
     return result;
 }
 
-int damerau_levenshtein_recursive_no_cache(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
+size_t damerau_levenshtein_recursive_no_cache(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
 {
     return 0;
 }
 
-int damerau_levenshtein_recursive_with_cache(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
+size_t damerau_levenshtein_recursive_with_cache(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
 {
     return 0;
 }

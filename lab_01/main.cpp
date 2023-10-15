@@ -273,7 +273,7 @@ int levenshtein_iterative_matrix(const wchar_t *s1, const wchar_t *s2)
 
     int result = 0;
     size_t insert_cost, delete_cost, replace_cost, *who;
-    bool cond;
+    bool replace_skip_cond;
 
     for (size_t i = 1; i < len1; i++)
     {
@@ -281,8 +281,8 @@ int levenshtein_iterative_matrix(const wchar_t *s1, const wchar_t *s2)
         {
             insert_cost = matrix[1 - 1][j] + 1;
             delete_cost = matrix[1][j - 1] + 1;
-            cond = (s1[i] == s2[j]);
-            replace_cost = matrix[1 - 1][j - 1] + (cond ? 0 : 1);
+            replace_skip_cond = (s1[i] == s2[j]);
+            replace_cost = matrix[1 - 1][j - 1] + (replace_skip_cond ? 0 : 1);
             who = min3(&insert_cost, &delete_cost, &replace_cost);
             matrix[1][j] = *who;
         }
@@ -309,7 +309,7 @@ int levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *s2)
     if (matrix == NULL) return -1;
 
     int result = 0;
-    bool cond;
+    bool replace_skip_cond;
     size_t insert_cost, delete_cost, replace_cost, *who;
 
     for (size_t i = 1; i < len1; i++)
@@ -318,8 +318,8 @@ int levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *s2)
         {
             insert_cost = matrix[i - 1][j] + 1;
             delete_cost = matrix[i][j - 1] + 1;
-            cond = (s1[i] == s2[j]);
-            replace_cost = matrix[i - 1][j - 1] + (cond ? 0 : 1);
+            replace_skip_cond = (s1[i] == s2[j]);
+            replace_cost = matrix[i - 1][j - 1] + (replace_skip_cond ? 0 : 1);
             who = min3(&insert_cost, &delete_cost, &replace_cost);
             matrix[i][j] = *who;
         }
@@ -358,7 +358,7 @@ int damerau_levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *
     if (matrix == NULL) return -1;
     int result = 0;
 
-    bool diag_cond, swap_cond;
+    bool replace_skip_cond, swap_cond;
     size_t insert_cost, delete_cost, replace_cost, swap_cost, *who;
 
     for (size_t i = 1; i < len1; i++)
@@ -367,8 +367,8 @@ int damerau_levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *
         {
             insert_cost = matrix[i - 1][j] + 1;
             delete_cost = matrix[i][j - 1] + 1;
-            diag_cond = (s1[i] == s2[j]);
-            replace_cost = matrix[i - 1][j - 1] + (diag_cond ? 0 : 1);
+            replace_skip_cond = (s1[i] == s2[j]);
+            replace_cost = matrix[i - 1][j - 1] + (replace_skip_cond ? 0 : 1);
             if (i >= 2 && j >= 2) [[likely]]
             {
                 swap_cond = (s1[i] == s2[j - 1] && s1[i - 1] == s2[j]);

@@ -153,74 +153,12 @@ size_t *min4(size_t *a, size_t *b, size_t *c, size_t *d)
     return result;
 }
 
-// Algorithms
-int levenshtein_iterative_matrix(const wchar_t *s1, const wchar_t *s2)
+void print_trace(size_t **matrix, size_t r, size_t c)
 {
-    size_t len1 = wcsnlen(s1, BUFSIZE); // n_rows
-    size_t len2 = wcsnlen(s2, BUFSIZE); // n_columns
-
-    size_t **matrix = create_matrix(2, len2);
-    size_t *first_row = matrix[0];
-
-    if (matrix == NULL) return -1;
-
-    size_t insert_cost, delete_cost, replace_cost;
-    bool cond;
-    size_t *who;
-
-    for (size_t i = 1; i < len1; i++)
-    {
-        for (size_t j = 1; j < len2; j++)
-        {
-            insert_cost = matrix[1 - 1][j] + 1;
-            delete_cost = matrix[1][j - 1] + 1;
-            cond = (s1[i] == s2[j]);
-            replace_cost = matrix[1 - 1][j - 1] + (cond ? 0 : 1);
-            who = min3(&insert_cost, &delete_cost, &replace_cost);
-            matrix[1][j] = *who;
-        }
-        matrix_roll_one_up(matrix, 2);
-    }
-
-    wprintf(L"%d\n", matrix[0][len2 - 1]);
-
-    free_matrix(matrix, first_row);
-
-    return 0;
-}
-
-int levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *s2)
-{
-    size_t len1 = wcsnlen(s1, BUFSIZE); // n_rows
-    size_t len2 = wcsnlen(s2, BUFSIZE); // n_columns
-
-    size_t **matrix = create_matrix(len1, len2);
-
-    if (matrix == NULL) return -1;
-
-    size_t insert_cost, delete_cost, replace_cost;
-    bool cond;
-    size_t *who;
-
-    for (size_t i = 1; i < len1; i++)
-    {
-        for (size_t j = 1; j < len2; j++)
-        {
-            insert_cost = matrix[i - 1][j] + 1;
-            delete_cost = matrix[i][j - 1] + 1;
-            cond = (s1[i] == s2[j]);
-            replace_cost = matrix[i - 1][j - 1] + (cond ? 0 : 1);
-            who = min3(&insert_cost, &delete_cost, &replace_cost);
-            matrix[i][j] = *who;
-        }
-    }
-
-    wprintf(L"%d\n", matrix[len1 - 1][len2 - 1]);
-
-    // Get trace
     std::vector<char> trace;
-    int count = 0;
-    for (int i = len1 - 1, j = len2 - 1; (i + j) > 0;)
+    size_t *who;
+
+    for (int i = r - 1, j = c - 1; (i + j) > 0;)
     {
         size_t left = (j > 0) ? matrix[i][j - 1] : -1;
         size_t diag = (i > 0 && j > 0) ? matrix[i - 1][j - 1] : -1;
@@ -251,19 +189,89 @@ int levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *s2)
             trace.push_back('D');
             --i;
         }
-        ++count;
     }
+
     for (size_t i = 0; i < trace.size(); i++)
     {
         wprintf(L"%lc", trace.at(trace.size() - 1 - i));
     }
-    wprintf(L"\n%d\n", count);
+    wprintf(L"\n");
+}
 
+// Algorithms
+int levenshtein_iterative_matrix(const wchar_t *s1, const wchar_t *s2)
+{
+    size_t len1 = wcsnlen(s1, BUFSIZE); // n_rows
+    size_t len2 = wcsnlen(s2, BUFSIZE); // n_columns
+
+    size_t **matrix = create_matrix(2, len2);
+    size_t *first_row = matrix[0];
+
+    if (matrix == NULL) return -1;
+
+    int result = 0;
+    size_t insert_cost, delete_cost, replace_cost, *who;
+    bool cond;
+
+    for (size_t i = 1; i < len1; i++)
+    {
+        for (size_t j = 1; j < len2; j++)
+        {
+            insert_cost = matrix[1 - 1][j] + 1;
+            delete_cost = matrix[1][j - 1] + 1;
+            cond = (s1[i] == s2[j]);
+            replace_cost = matrix[1 - 1][j - 1] + (cond ? 0 : 1);
+            who = min3(&insert_cost, &delete_cost, &replace_cost);
+            matrix[1][j] = *who;
+        }
+        matrix_roll_one_up(matrix, 2);
+    }
+
+    result = matrix[0][len2 - 1];
+
+    /* wprintf(L"%d\n", result); */
+
+    free_matrix(matrix, first_row);
+
+    return result;
+}
+
+int levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *s2)
+{
+    size_t len1 = wcsnlen(s1, BUFSIZE); // n_rows
+    size_t len2 = wcsnlen(s2, BUFSIZE); // n_columns
+
+    size_t **matrix = create_matrix(len1, len2);
+
+    if (matrix == NULL) return -1;
+
+    int result = 0;
+    bool cond;
+    size_t insert_cost, delete_cost, replace_cost, *who;
+
+    for (size_t i = 1; i < len1; i++)
+    {
+        for (size_t j = 1; j < len2; j++)
+        {
+            insert_cost = matrix[i - 1][j] + 1;
+            delete_cost = matrix[i][j - 1] + 1;
+            cond = (s1[i] == s2[j]);
+            replace_cost = matrix[i - 1][j - 1] + (cond ? 0 : 1);
+            who = min3(&insert_cost, &delete_cost, &replace_cost);
+            matrix[i][j] = *who;
+        }
+    }
+
+    result = matrix[len1 - 1][len2 - 1];
+
+    // Printing stuff
     print_matrix_and_strings(matrix, len1, len2, s1, s2);
+    print_trace(matrix, len1, len2);
+    wprintf(L"%d\n", result);
 
     free_matrix(matrix, matrix[0]);
 
-    return 0;
+    return result;
 }
 
 int damerau_levenshtein_iterative_matrix(const wchar_t *s1, const wchar_t *s2)

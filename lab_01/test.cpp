@@ -43,6 +43,16 @@ TEST_F(MainTest, SeminarExample) {
 	ASSERT_EQ(DLRC, 2U);
 }
 
+TEST_F(MainTest, SameWordsSoNoChanges) {
+    wchar_t str1[BUFSIZE] = L"обеъьяа";
+    wchar_t str2[BUFSIZE] = L"обеъьяа";
+    Run(str1, str2);
+	ASSERT_EQ(LI,   0U);
+	ASSERT_EQ(DLI,  0U);
+	ASSERT_EQ(DLR,  0U);
+	ASSERT_EQ(DLRC, 0U);
+}
+
 TEST_F(MainTest, TestedManuallyInNotebook1) {
     wchar_t str1[BUFSIZE] = L"howiwantadrink";
     wchar_t str2[BUFSIZE] = L"alcoholicofcourse";

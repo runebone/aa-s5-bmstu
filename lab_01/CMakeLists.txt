@@ -8,4 +8,5 @@ add_executable(lab_01
     # old/menu.cpp
     # old/algorithm.cpp
     main.cpp
+    func.cpp
 )

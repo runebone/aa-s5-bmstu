@@ -9,7 +9,7 @@
 #define U_INF -1 // Unsigned infinity
 
 void pm(size_t **matrix, size_t r, size_t c);
-void print_matrix_and_strings(size_t **matrix, size_t r, size_t c, const wchar_t *s1, const wchar_t *s2);
+void print_matrix_and_strings(size_t **matrix, size_t r, size_t c, const wchar_t *str1, const wchar_t *str2);
 
 // Helper functions
 int input_strings(wchar_t *s1, wchar_t *s2)
@@ -17,15 +17,10 @@ int input_strings(wchar_t *s1, wchar_t *s2)
     int rc = 0;
     wchar_t buf[BUFSIZE];
 
-    if (wscanf(L"%ls %ls", s1 + 1, s2 + 1) != 2)
+    if (wscanf(L"%ls %ls", s1, s2) != 2)
     {
         fgetws(buf, sizeof(buf), stdin);
         rc = -1;
-    }
-    else
-    {
-        s1[0] = L'λ';
-        s2[0] = L'λ';
     }
 
     return rc;
@@ -199,10 +194,13 @@ void print_lev_trace(size_t **matrix, size_t r, size_t c)
     wprintf(L"\n");
 }
 
-void print_damlev_trace(size_t **matrix, size_t r, size_t c, const wchar_t *s1, const wchar_t *s2)
+void print_damlev_trace(size_t **matrix, size_t r, size_t c, const wchar_t *str1, const wchar_t *str2)
 {
     std::vector<char> trace;
     size_t *who;
+
+    const wchar_t *s1 = str1 - 1;
+    const wchar_t *s2 = str2 - 1;
 
     for (int i = r - 1, j = c - 1; (i + j) > 0;)
     {
@@ -258,13 +256,16 @@ void print_damlev_trace(size_t **matrix, size_t r, size_t c, const wchar_t *s1, 
 }
 
 // Algorithms
-int levenshtein_iterative_matrix(const wchar_t *s1, const wchar_t *s2)
+int levenshtein_iterative_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
 {
-    size_t len1 = wcsnlen(s1, BUFSIZE); // n_rows
-    size_t len2 = wcsnlen(s2, BUFSIZE); // n_columns
-
     if (len1 == 0) return len2;
     if (len2 == 0) return len1;
+    
+    // Shifting strings right (~ inserting λ at pos. 0)
+    ++len1;
+    ++len2;
+    const wchar_t *s1 = str1 - 1;
+    const wchar_t *s2 = str2 - 1;
 
     size_t **matrix = create_matrix(2, len2);
     size_t *first_row = matrix[0];
@@ -279,10 +280,10 @@ int levenshtein_iterative_matrix(const wchar_t *s1, const wchar_t *s2)
     {
         for (size_t j = 1; j < len2; j++)
         {
-            insert_cost = matrix[1 - 1][j] + 1;
+            insert_cost = matrix[0][j] + 1;
             delete_cost = matrix[1][j - 1] + 1;
             replace_skip_cond = (s1[i] == s2[j]);
-            replace_cost = matrix[1 - 1][j - 1] + (replace_skip_cond ? 0 : 1);
+            replace_cost = matrix[0][j - 1] + (replace_skip_cond ? 0 : 1);
             who = min3(&insert_cost, &delete_cost, &replace_cost);
             matrix[1][j] = *who;
         }
@@ -296,13 +297,16 @@ int levenshtein_iterative_matrix(const wchar_t *s1, const wchar_t *s2)
     return result;
 }
 
-int levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *s2)
+int levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
 {
-    size_t len1 = wcsnlen(s1, BUFSIZE); // n_rows
-    size_t len2 = wcsnlen(s2, BUFSIZE); // n_columns
-
     if (len1 == 0) return len2;
     if (len2 == 0) return len1;
+
+    // Shifting strings right (~ inserting λ at pos. 0)
+    ++len1;
+    ++len2;
+    const wchar_t *s1 = str1 - 1;
+    const wchar_t *s2 = str2 - 1;
 
     size_t **matrix = create_matrix(len1, len2);
 
@@ -328,7 +332,7 @@ int levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *s2)
     result = matrix[len1 - 1][len2 - 1];
 
     // Printing stuff
-    print_matrix_and_strings(matrix, len1, len2, s1, s2);
+    print_matrix_and_strings(matrix, len1, len2, str1, str2);
     print_lev_trace(matrix, len1, len2);
     wprintf(L"%d\n", result);
 
@@ -346,13 +350,16 @@ int levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *s2)
 /*     return 0; */
 /* } */
 
-int damerau_levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *s2)
+int damerau_levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
 {
-    size_t len1 = wcsnlen(s1, BUFSIZE);
-    size_t len2 = wcsnlen(s2, BUFSIZE);
-
     if (len1 == 0) return len2;
     if (len2 == 0) return len1;
+
+    // Shifting strings right (~ inserting λ at pos. 0)
+    ++len1;
+    ++len2;
+    const wchar_t *s1 = str1 - 1;
+    const wchar_t *s2 = str2 - 1;
 
     size_t **matrix = create_matrix(len1, len2);
     if (matrix == NULL) return -1;
@@ -386,8 +393,8 @@ int damerau_levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *
     result = matrix[len1 - 1][len2 - 1];
 
     // Printing stuff
-    print_matrix_and_strings(matrix, len1, len2, s1, s2);
-    print_damlev_trace(matrix, len1, len2, s1, s2);
+    print_matrix_and_strings(matrix, len1, len2, str1, str2);
+    print_damlev_trace(matrix, len1, len2, str1, str2);
     wprintf(L"%d\n", result);
 
     free_matrix(matrix, matrix[0]);
@@ -395,21 +402,13 @@ int damerau_levenshtein_iterative_full_matrix(const wchar_t *s1, const wchar_t *
     return result;
 }
 
-int damerau_levenshtein_recursive_no_cache(const wchar_t *s1, const wchar_t *s2)
+int damerau_levenshtein_recursive_no_cache(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
 {
-    size_t len1 = wcsnlen(s1, BUFSIZE);
-    size_t len2 = wcsnlen(s2, BUFSIZE);
-    (void)len1;
-    (void)len2;
     return 0;
 }
 
-int damerau_levenshtein_recursive_with_cache(const wchar_t *s1, const wchar_t *s2)
+int damerau_levenshtein_recursive_with_cache(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
 {
-    size_t len1 = wcsnlen(s1, BUFSIZE);
-    size_t len2 = wcsnlen(s2, BUFSIZE);
-    (void)len1;
-    (void)len2;
     return 0;
 }
 
@@ -443,9 +442,12 @@ int main()
         {
             rc = input_strings(s1, s2);
 
+            size_t len1 = wcsnlen(s1, BUFSIZE);
+            size_t len2 = wcsnlen(s2, BUFSIZE);
+
             /* levenshtein_iterative_matrix(s1, s2); */
-            levenshtein_iterative_full_matrix(s1, s2);
-            damerau_levenshtein_iterative_full_matrix(s1, s2);
+            levenshtein_iterative_full_matrix(s1, len1, s2, len2);
+            damerau_levenshtein_iterative_full_matrix(s1, len1, s2, len2);
         }
         else if (c == 2)
         {
@@ -468,7 +470,7 @@ int main()
     return rc;
 }
 
-// Pretty printers for GDB
+// Pretty printer for GDB
 void pm(size_t **matrix, size_t r, size_t c)
 {
     for (size_t i = 0; i < r; i++)
@@ -481,17 +483,26 @@ void pm(size_t **matrix, size_t r, size_t c)
     }
 }
 
-void print_matrix_and_strings(size_t **matrix, size_t r, size_t c, const wchar_t *s1, const wchar_t *s2)
+void print_matrix_and_strings(size_t **matrix, size_t r, size_t c, const wchar_t *str1, const wchar_t *str2)
 {
     wprintf(L"%2lc ", ' ');
-    for (size_t j = 0; j < c; j++)
+    wprintf(L"%2lc ", L'λ');
+    for (size_t j = 1; j < c; j++)
     {
-        wprintf(L"%2lc ", s2[j]);
+        wprintf(L"%2lc ", str2[j - 1]);
     }
     wprintf(L"\n");
-    for (size_t i = 0; i < r; i++)
+
+    wprintf(L"%2lc ", L'λ');
+    for (size_t j = 0; j < c; j++)
     {
-        wprintf(L"%2lc ", s1[i]);
+        wprintf(L"%2d ", matrix[0][j]);
+    }
+    wprintf(L"\n");
+
+    for (size_t i = 1; i < r; i++)
+    {
+        wprintf(L"%2lc ", str1[i - 1]);
         for (size_t j = 0; j < c; j++)
         {
             wprintf(L"%2d ", matrix[i][j]);

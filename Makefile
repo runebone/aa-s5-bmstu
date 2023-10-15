@@ -5,7 +5,7 @@ endif
 
 LAB := lab_0$(lab)
 EXE := lab_0$(lab)
-CFLAGS := -Wall -Werror
+CFLAGS := -Wall
 CURDIR := $(shell pwd)
 
 .DEFAULT_GOAL := debug

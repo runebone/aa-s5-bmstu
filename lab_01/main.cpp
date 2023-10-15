@@ -3,6 +3,8 @@
 #include <wchar.h>
 
 #include "func.h"
+#include "test.h"
+#include "colors.h"
 
 #define BUFSIZE 255
 
@@ -18,9 +20,10 @@ int input_strings(wchar_t *s1, wchar_t *s2)
     return rc;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
     setlocale(LC_ALL, "");
+	testing::InitGoogleTest(&argc, argv);
 
     int rc = 0;
     wchar_t buf[BUFSIZE];
@@ -63,6 +66,14 @@ int main()
         }
         else if (c == 2)
         {
+            if (RUN_ALL_TESTS() == 0)
+            {
+                wprintf(TCG L"Все тесты пройдены.\n" RC);
+            }
+            else
+            {
+                wprintf(TCR L"Не все тесты пройдены.\n" RC);
+            }
         }
         else if (c != 3)
         {

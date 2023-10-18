@@ -1,7 +1,7 @@
-#include "test.h"
+#include <gtest/gtest.h>
 #include "func.h"
 
-#define BUFSIZE 255
+#define BUFSIZE 100'000
 
 class MainTest : public ::testing::Test {
 protected:
@@ -132,3 +132,9 @@ TEST_F(MainTest, BothStringsEmpty) {
 	ASSERT_EQ(DLRC, 0U);
 }
 
+int main(int argc, char *argv[])
+{
+	testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
+}

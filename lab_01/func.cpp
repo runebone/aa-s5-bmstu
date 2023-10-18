@@ -8,6 +8,11 @@
 
 size_t **create_matrix(size_t n_rows, size_t n_columns)
 {
+    if (n_rows < 1 || n_columns < 1)
+    {
+        return NULL;
+    }
+
     size_t *mem = (size_t*)malloc(n_rows * n_columns * sizeof(size_t));
 
     if (mem == NULL)
@@ -277,6 +282,31 @@ void print_damlev_trace(size_t **matrix, size_t r, size_t c, const wchar_t *str1
 }
 
 // Algorithms
+size_t lev_im_helper(size_t **matrix_2xN, const wchar_t *s1, size_t len1, const wchar_t *s2, size_t len2)
+{
+    size_t result = 0;
+    size_t insert_cost, delete_cost, replace_cost, *who;
+    bool replace_skip_cond;
+
+    for (size_t i = 1; i < len1; i++)
+    {
+        for (size_t j = 1; j < len2; j++)
+        {
+            insert_cost = matrix_2xN[0][j] + 1;
+            delete_cost = matrix_2xN[1][j - 1] + 1;
+            replace_skip_cond = (s1[i] == s2[j]);
+            replace_cost = matrix_2xN[0][j - 1] + (replace_skip_cond ? 0 : 1);
+            who = min3(&insert_cost, &delete_cost, &replace_cost);
+            matrix_2xN[1][j] = *who;
+        }
+        matrix_roll_one_up(matrix_2xN, 2);
+    }
+
+    result = matrix_2xN[0][len2 - 1];
+
+    return result;
+}
+
 size_t levenshtein_iterative_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
 {
     if (len1 == 0) return len2;
@@ -293,46 +323,15 @@ size_t levenshtein_iterative_matrix(const wchar_t *str1, size_t len1, const wcha
 
     if (matrix == NULL) return -1;
 
-    size_t result = 0;
-    size_t insert_cost, delete_cost, replace_cost, *who;
-    bool replace_skip_cond;
-
-    for (size_t i = 1; i < len1; i++)
-    {
-        for (size_t j = 1; j < len2; j++)
-        {
-            insert_cost = matrix[0][j] + 1;
-            delete_cost = matrix[1][j - 1] + 1;
-            replace_skip_cond = (s1[i] == s2[j]);
-            replace_cost = matrix[0][j - 1] + (replace_skip_cond ? 0 : 1);
-            who = min3(&insert_cost, &delete_cost, &replace_cost);
-            matrix[1][j] = *who;
-        }
-        matrix_roll_one_up(matrix, 2);
-    }
-
-    result = matrix[0][len2 - 1];
+    size_t result = lev_im_helper(matrix, s1, len1, s2, len2);
 
     free_matrix(matrix, first_row);
 
     return result;
 }
 
-size_t levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
+size_t lev_ifm_helper(size_t **matrix, const wchar_t *s1, size_t len1, const wchar_t *s2, size_t len2)
 {
-    if (len1 == 0) return len2;
-    if (len2 == 0) return len1;
-
-    // Shifting strings right (~ inserting λ at pos. 0)
-    ++len1;
-    ++len2;
-    const wchar_t *s1 = str1 - 1;
-    const wchar_t *s2 = str2 - 1;
-
-    size_t **matrix = create_matrix(len1, len2);
-
-    if (matrix == NULL) return -1;
-
     size_t result = 0;
     bool replace_skip_cond;
     size_t insert_cost, delete_cost, replace_cost, *who;
@@ -352,6 +351,26 @@ size_t levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const
 
     result = matrix[len1 - 1][len2 - 1];
 
+    return result;
+}
+
+size_t levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
+{
+    if (len1 == 0) return len2;
+    if (len2 == 0) return len1;
+
+    // Shifting strings right (~ inserting λ at pos. 0)
+    ++len1;
+    ++len2;
+    const wchar_t *s1 = str1 - 1;
+    const wchar_t *s2 = str2 - 1;
+
+    size_t **matrix = create_matrix(len1, len2);
+
+    if (matrix == NULL) return -1;
+
+    size_t result = lev_ifm_helper(matrix, s1, len1, s2, len2);
+
     // Printing stuff
     print_matrix_and_strings(matrix, len1, len2, str1, str2);
     print_lev_trace(matrix, len1, len2);
@@ -367,20 +386,8 @@ size_t levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const
 /*     return 0; */
 /* } */
 
-size_t damerau_levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
+size_t damlev_ifm_helper(size_t **matrix, const wchar_t *s1, size_t len1, const wchar_t *s2, size_t len2)
 {
-    if (len1 == 0) return len2;
-    if (len2 == 0) return len1;
-
-    // Shifting strings right (~ inserting λ at pos. 0)
-    ++len1;
-    ++len2;
-    const wchar_t *s1 = str1 - 1;
-    const wchar_t *s2 = str2 - 1;
-
-    size_t **matrix = create_matrix(len1, len2);
-    if (matrix == NULL) return -1;
-
     size_t result = 0;
     bool replace_skip_cond, swap_cond;
     size_t insert_cost, delete_cost, replace_cost, swap_cost, *who;
@@ -408,6 +415,25 @@ size_t damerau_levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len
     }
 
     result = matrix[len1 - 1][len2 - 1];
+
+    return result;
+}
+
+size_t damerau_levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
+{
+    if (len1 == 0) return len2;
+    if (len2 == 0) return len1;
+
+    // Shifting strings right (~ inserting λ at pos. 0)
+    ++len1;
+    ++len2;
+    const wchar_t *s1 = str1 - 1;
+    const wchar_t *s2 = str2 - 1;
+
+    size_t **matrix = create_matrix(len1, len2);
+    if (matrix == NULL) return -1;
+
+    size_t result = damlev_ifm_helper(matrix, s1, len1, s2, len2);
 
     // Printing stuff
     print_matrix_and_strings(matrix, len1, len2, str1, str2);

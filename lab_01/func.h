@@ -17,10 +17,17 @@ void print_matrix_and_strings(size_t **matrix, size_t r, size_t c, const wchar_t
 void print_lev_trace(size_t **matrix, size_t r, size_t c);
 void print_damlev_trace(size_t **matrix, size_t r, size_t c, const wchar_t *str1, const wchar_t *str2);
 
+size_t lev_im_helper(size_t **matrix_2xN, const wchar_t *s1, size_t len1, const wchar_t *s2, size_t len2);
 size_t levenshtein_iterative_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2);
+
+size_t lev_ifm_helper(size_t **matrix, const wchar_t *s1, size_t len1, const wchar_t *s2, size_t len2);
 size_t levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2);
+
+size_t damlev_ifm_helper(size_t **matrix, const wchar_t *s1, size_t len1, const wchar_t *s2, size_t len2);
 size_t damerau_levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2);
+
 size_t damerau_levenshtein_recursive_no_cache(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2);
+
 size_t damlev_rwc_helper(size_t **matrix, const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2);
 size_t damerau_levenshtein_recursive_with_cache(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2);
 

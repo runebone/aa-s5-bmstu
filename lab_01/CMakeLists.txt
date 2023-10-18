@@ -16,13 +16,14 @@ link_directories(
     )
 
 add_executable(lab_01
-    # old/main.cpp
-    # old/errors.cpp
-    # old/menu.cpp
-    # old/algorithm.cpp
     main.cpp
     func.cpp
-    test.cpp
-)
+    benchmark.cpp
+    )
 
-target_link_libraries(lab_01 gtest gtest_main)
+add_executable(lab_01_test
+    test.cpp
+    func.cpp
+    )
+
+target_link_libraries(lab_01_test gtest gtest_main)

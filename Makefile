@@ -47,6 +47,9 @@ test:
 dbg:
 	cgdb build/main
 
+p:
+	python lab_01/plot.py
+
 .PHONY: clean
 clean:
 	rm -rf build

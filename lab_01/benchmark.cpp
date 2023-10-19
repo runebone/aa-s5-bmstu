@@ -5,7 +5,6 @@
 #include <functional>
 #include <random>
 #include <limits.h>
-/* #include <unistd.h> */
 #include <fstream>
 #include <vector>
 #include "func.h"
@@ -180,8 +179,6 @@ BenchmarkData benchmark_run_one(const wchar_t str1[BUFSIZE], const wchar_t str2[
     func_t dlr = [=](){ damerau_levenshtein_recursive_no_cache(str1, len1, str2, len2); };
     func_t dlrc = [=](){ damlev_rwc_helper(matrix_rwc, str1, len1, str2, len2); };
 
-    wprintf(L"Benchmarking...\n");
-
     long tlim = timeit(lim);
     /* clean(matrix_2xN, 2, l2); */
     long tlifm = timeit(lifm);
@@ -191,13 +188,6 @@ BenchmarkData benchmark_run_one(const wchar_t str1[BUFSIZE], const wchar_t str2[
     long tdlr = run_dlr ? timeit(dlr) : -1;
     long tdlrc = timeit(dlrc);
     /* clean(matrix_rwc, len1, len2, true); */
-
-    wprintf(L"%-41ls: %ld, %ld\n", L"String lengths", len1, len2);
-    wprintf(L"%-41ls: %ld\n", L"Levenshtein Iterative (memory-optimized)", tlim);
-    wprintf(L"%-41ls: %ld\n", L"Levenshtein Iterative", tlifm);
-    wprintf(L"%-41ls: %ld\n", L"Damerau-Levenshtein Iterative", tdlifm);
-    if (run_dlr) wprintf(L"%-41ls: %ld\n", L"Damerau-Levenshtein Recursive No Cache", tdlr);
-    wprintf(L"%-41ls: %ld\n\n", L"Damerau-Levenshtein Recursive With Cache", tdlrc);
 
     free_matrix(matrix_rwc, matrix_rwc[0]);
     free_matrix(matrix_2xN, first_row);
@@ -219,8 +209,10 @@ void benchmark(size_t start, size_t stop, size_t step, size_t count)
 
     std::vector<BenchmarkData> bdv;
 
-    for (size_t len = start; len < stop; len += step)
+    wprintf(L"Производится замер времени...\n");
+    for (size_t len = start; len <= stop; len += step)
     {
+        wprintf(L"Длина слов = %ld...\n", len);
         for (size_t i = 0; i < count; i++)
         {
             bdv.push_back(benchmark_run_one(grs(len), grs(len)));
@@ -228,6 +220,7 @@ void benchmark(size_t start, size_t stop, size_t step, size_t count)
     }
 
     log(bdv);
+    wprintf(L"Данные записаны в файл.\n");
 }
 
 void benchmark()
@@ -236,13 +229,16 @@ void benchmark()
 
     std::vector<BenchmarkData> bdv;
 
-    for (size_t len : { 10, 50, 100, 500, 1000 })
+    wprintf(L"Производится замер времени...\n");
+    for (size_t len : { 1, 5, 10, 50, 100, 500, 1000 })
     {
-        for (size_t i = 0; i < 10; i++)
+        wprintf(L"Длина слов = %ld...\n", len);
+        for (size_t i = 0; i <= 100; i++)
         {
             bdv.push_back(benchmark_run_one(grs(len), grs(len)));
         }
     }
 
     log(bdv);
+    wprintf(L"Данные записаны в файл.\n");
 }

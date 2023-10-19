@@ -1,0 +1,146 @@
+\usepackage{cmap} % Улучшенный поиск русских слов в полученном pdf-файле
+\usepackage[T2A]{fontenc} % Поддержка русских букв
+\usepackage[utf8]{inputenc} % Кодировка utf8
+\usepackage[english,russian]{babel} % Языки: русский, английский
+
+\usepackage[14pt]{extsizes}
+
+\usepackage{graphicx}
+\usepackage{multirow}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+\usepackage{caption}
+\captionsetup{labelsep=endash}
+\captionsetup[figure]{name={Рисунок}}
+
+\usepackage{amsmath}
+
+\usepackage{geometry}
+\geometry{left=30mm}
+\geometry{right=15mm}
+\geometry{top=20mm}
+\geometry{bottom=20mm}
+
+% Переопределение стандартных \section, \subsection, \subsubsection по ГОСТу;
+% Переопределение их отступов до и после для 1.5 интервала во всем документе
+\usepackage{titlesec}
+
+\titleformat{\section}[block]
+{\bfseries\normalsize\filcenter}{\thesection}{1em}{}
+
+\titleformat{\subsection}[hang]
+{\bfseries\normalsize}{\thesubsection}{1em}{}
+\titlespacing\subsection{\parindent}{\parskip}{\parskip}
+
+\titleformat{\subsubsection}[hang]
+{\bfseries\normalsize}{\thesubsubsection}{1em}{}
+\titlespacing\subsubsection{\parindent}{\parskip}{\parskip}
+
+\usepackage{setspace}
+\onehalfspacing % Полуторный интервал
+
+\frenchspacing
+\usepackage{indentfirst} % Красная строка
+
+\usepackage{titlesec}
+\titleformat{\chapter}{\LARGE\bfseries}{\thechapter}{20pt}{\LARGE\bfseries}
+\titleformat{\section}{\Large\bfseries}{\thesection}{20pt}{\Large\bfseries}
+
+% Настройки оглавления
+\usepackage{xcolor}
+\usepackage{multirow}
+
+% Гиперссылки
+\usepackage[pdftex]{hyperref}
+\hypersetup{hidelinks}
+
+% Листинги 
+\usepackage{listings}
+
+\definecolor{darkgray}{gray}{0.15}
+
+\usepackage{listings}
+\lstset{
+	basicstyle=\footnotesize\ttfamily,
+	language=[Sharp]C, % Или другой ваш язык -- см. документацию пакета
+	commentstyle=\color{comment},
+	numbers=left,
+	numberstyle=\tiny\color{plain},
+	numbersep=5pt,
+	tabsize=4,
+	extendedchars=\true,
+	breaklines=true,
+	keywordstyle=\color{blue},
+	frame=b,
+	stringstyle=\ttfamily\color{string}\ttfamily,
+	showspaces=false,
+	showtabs=false,
+	xleftmargin=17pt,
+	framexleftmargin=17pt,
+	framexrightmargin=5pt,
+	framexbottommargin=4pt,
+	showstringspaces=false,
+	inputencoding=utf8x,
+	keepspaces=true
+}
+
+% Для квадратных скобок
+\usepackage{array}
+\DeclareMathOperator{\rank}{rank}
+\makeatletter
+\newenvironment{sqcases}{%
+	\matrix@check\sqcases\env@sqcases
+}{%
+	\endarray\right.%
+}
+\def\env@sqcases{%
+	\let\@ifnextchar\new@ifnextchar
+	\left\lbrack
+	\def\arraystretch{1.2}%
+	\array{@{}l@{\quad}l@{}}%
+}
+\makeatother
+
+\DeclareCaptionLabelSeparator{line}{\ --\ }
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43,0.35,0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{
+	format=listing,
+	labelfont=white,
+	textfont=white,
+	singlelinecheck=false,
+	margin=0pt,
+	font={bf,footnotesize},
+	labelsep=line
+}
+
+% Работа с изображениями и таблицами; переопределение названий по ГОСТу
+\usepackage{caption}
+\captionsetup[figure]{name={Рисунок},labelsep=endash}
+\captionsetup[table]{singlelinecheck=false, labelsep=endash}
+
+\usepackage[justification=centering]{caption} % Настройка подписей float объектов	
+
+\usepackage{csvsimple}
+
+\usepackage{ulem} % Нормальное нижнее подчеркивание
+\usepackage{hhline} % Двойная горизонтальная линия в таблицах
+\usepackage[figure,table]{totalcount} % Подсчет изображений, таблиц
+\usepackage{rotating} % Поворот изображения вместе с названием
+\usepackage{lastpage} % Для подсчета числа страниц
+
+\makeatletter
+\renewcommand\@biblabel[1]{#1.}
+\makeatother
+
+\usepackage{color}
+\usepackage[cache=false, newfloat]{minted}
+\newenvironment{code}{\captionsetup{type=listing, singlelinecheck=false, labelsep=endash}}{}
+\SetupFloatingEnvironment{listing}{name=Листинг}
+
+\usepackage{ragged2e} % Перенос слов на следующую строку
+\usepackage{pdfpages}
+
+\usepackage{blindtext}

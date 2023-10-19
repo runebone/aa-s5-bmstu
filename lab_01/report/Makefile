@@ -1,6 +1,6 @@
 PDF = index.pdf
 MAIN = main
-FLAGS =
+FLAGS = -shell-escape
 
 # all:
 	# make bib

@@ -2,13 +2,6 @@
 
 \include{preamble}
 
-% \usepackage[
-%     backend=biber,
-%     style=utf8gost705.bst,
-%     sorting=ynt
-% ]{biblatex}
-% \addbibresource{bibliography.bib}
-
 \begin{document}
 
 \include{00-title}
@@ -16,8 +9,7 @@
 \tableofcontents
 
 \newpage
-\section*{Введение}
-\addcontentsline{toc}{section}{Введение}
+\section*{Введение}\addcontentsline{toc}{section}{Введение}
 \Blindtext
 \newpage
 \section{Аналитическая часть}
@@ -47,16 +39,21 @@
 \subsection{Mechanics}
 \Blindtext
 \newpage
-\section*{Заключение}
-\addcontentsline{toc}{section}{Заключение}
-\Blindtext \cite{Lev1965}
+\section*{Заключение}\addcontentsline{toc}{section}{Заключение}
+\Blindtext \cite{test} \cite{linux} \cite{amd}
 
 \newpage
-% \printbibliography[title={Список использованных источников}]\addcontentsline{toc}{section}{Список использованных источников}
 
-\addcontentsline{toc}{section}{Список использованных источников}
-% \renewcommand\bibname{Список использованных источников}
-\bibliographystyle{utf8gost705u}  % стилевой файл для оформления по ГОСТу
-\bibliography{bibliography}          % имя библиографической базы (bib-файла)
+\printbib{Список используемых источников}
+
+% \addcontentsline{toc}{chapter}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}
+% \renewcommand\bibname{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ} % переименовать страницу списка литературы
+% \begingroup
+% \bibliographystyle{utf8gost705u}  % стилевой файл для оформления по ГОСТу
+% \raggedright
+% \bibliography{bibliography}          % имя библиографической базы (bib-файла)
+% \endgroup
+
+\Blindtext
 
 \end{document}

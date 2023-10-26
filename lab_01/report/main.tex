@@ -4,56 +4,46 @@
 
 \begin{document}
 
-\include{00-title}
+\counterwithin{lstlisting}{section}
+
+\include{title}
 \setcounter{page}{2}
 \tableofcontents
 
-\newpage
-\section*{Введение}\addcontentsline{toc}{section}{Введение}
-\Blindtext
-\newpage
-\section{Аналитическая часть}
-\subsection{How}
-\subsection{I}
-\subsection{Want}
-\subsection{A}
-\subsection{Drink}
-\Blindtext
-\newpage
-\section{Конструкторская часть}
-\subsection{Alcoholic}
-\subsection{Of}
-\subsection{Course}
-\Blindtext
-\newpage
-\section{Технологическая часть}
-\subsection{After}
-\subsection{The}
-\subsection{Heavy}
-\subsection{Lectures}
-\Blindtext
-\newpage
-\section{Исследовательская часть}
-\subsection{Including}
-\subsection{Quantum}
-\subsection{Mechanics}
-\Blindtext
-\newpage
-\section*{Заключение}\addcontentsline{toc}{section}{Заключение}
-\Blindtext \cite{test} \cite{linux} \cite{amd}
+\include{report/00-introduction}
 
-\newpage
+Yes \ref{lst:algo4}
 
-\printbib{Список используемых источников}
+\include{report/01-analytical}
 
-% \addcontentsline{toc}{chapter}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}
-% \renewcommand\bibname{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ} % переименовать страницу списка литературы
-% \begingroup
-% \bibliographystyle{utf8gost705u}  % стилевой файл для оформления по ГОСТу
-% \raggedright
-% \bibliography{bibliography}          % имя библиографической базы (bib-файла)
-% \endgroup
+\begin{lstinputlisting}[
+	label={lst:algo1},
+	caption={Итеративный алгоритм нахождения расстояния Левенштейна},
+	]{lst/l1.cpp}
+\end{lstinputlisting}
 
-\Blindtext
+\include{report/02-design}
+\begin{lstinputlisting}[
+	label={lst:algo2},
+	caption={Итеративный алгоритм нахождения расстояния Левенштейна},
+	]{lst/l2.cpp}
+\end{lstinputlisting}
+
+\include{report/03-technological}
+\begin{lstinputlisting}[
+	label={lst:algo3},
+	caption={Итеративный алгоритм нахождения расстояния Левенштейна},
+	]{lst/l3.cpp}
+\end{lstinputlisting}
+
+\include{report/04-research}
+\include{report/05-conclusion}
+
+\begin{lstinputlisting}[
+	label={lst:algo4},
+	caption={Итеративный алгоритм нахождения расстояния Левенштейна},
+	]{lst/l4.cpp}
+\end{lstinputlisting}
+
 
 \end{document}

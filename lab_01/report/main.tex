@@ -5,6 +5,7 @@
 \begin{document}
 
 \counterwithin{lstlisting}{section}
+\counterwithin{figure}{section}
 
 \include{title}
 \setcounter{page}{2}
@@ -12,38 +13,20 @@
 
 \include{report/00-introduction}
 
-Yes \ref{lst:algo4}
-
 \include{report/01-analytical}
-
-\begin{lstinputlisting}[
-	label={lst:algo1},
-	caption={Итеративный алгоритм нахождения расстояния Левенштейна},
-	]{lst/l1.cpp}
-\end{lstinputlisting}
-
 \include{report/02-design}
-\begin{lstinputlisting}[
-	label={lst:algo2},
-	caption={Итеративный алгоритм нахождения расстояния Левенштейна},
-	]{lst/l2.cpp}
-\end{lstinputlisting}
+
+\blindtext
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=130mm]{img/test}
+	\caption{Пример работы программы}
+	\label{img:example}
+\end{figure}
 
 \include{report/03-technological}
-\begin{lstinputlisting}[
-	label={lst:algo3},
-	caption={Итеративный алгоритм нахождения расстояния Левенштейна},
-	]{lst/l3.cpp}
-\end{lstinputlisting}
-
 \include{report/04-research}
 \include{report/05-conclusion}
-
-\begin{lstinputlisting}[
-	label={lst:algo4},
-	caption={Итеративный алгоритм нахождения расстояния Левенштейна},
-	]{lst/l4.cpp}
-\end{lstinputlisting}
-
 
 \end{document}

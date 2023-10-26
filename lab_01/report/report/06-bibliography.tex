@@ -1,1 +1,9 @@
-\printbib{Список используемых источников}
+% \printbib{Список используемых источников}
+% \renewcommand\bibname{Список использованных источников} % In case of chapters
+\renewcommand\refname{Список использованных источников} % переименовать страницу списка литературы in case of sections
+\begingroup
+\bibliographystyle{utf8gost705u}
+\raggedright
+\bibliography{bibliography}
+\addcontentsline{toc}{section}{Список использованных источников}
+\endgroup

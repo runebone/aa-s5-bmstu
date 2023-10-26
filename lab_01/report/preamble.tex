@@ -9,7 +9,7 @@
 \usepackage{multirow}
 
 \usepackage{tikz}
-\usepackage{pgfplots}
+% \usepackage{pgfplots}
 
 \usepackage{caption}
 \captionsetup{labelsep=endash}
@@ -25,26 +25,23 @@
 \geometry{bottom=20mm}
 
 % Переопределение стандартных \section, \subsection, \subsubsection по ГОСТу;
+
+% BUG this ugly donkey breaks \addcontentsline references
+% \usepackage{titlesec}
+% \titleformat{\section}[block]
+% {\bfseries\Large\filcenter}{\thesection}{1em}{}
+% \titleformat{\subsection}[hang]
+% {\bfseries\large}{\thesubsection}{1em}{}
+% \titlespacing\subsection{\parindent}{\parskip}{\parskip}
+% \titleformat{\subsubsection}[hang]
+% {\bfseries\large}{\thesubsubsection}{1em}{}
+% \titlespacing\subsubsection{\parindent}{\parskip}{\parskip}
+
+% This works fine instead
+\usepackage{etoolbox}
+\patchcmd{\section}{\normalfont}{\centering\normalfont}{}{}
+
 % Переопределение их отступов до и после для 1.5 интервала во всем документе
-\usepackage{titlesec}
-
-\titleformat{\section}[block]
-% {\bfseries\normalsize\filcenter}{\thesection}{1em}{}
-{\bfseries\Large\filcenter}{\thesection}{1em}{}
-
-\titleformat{\subsection}[hang]
-% {\bfseries\normalsize}{\thesubsection}{1em}{}
-{\bfseries\large}{\thesubsection}{1em}{}
-\titlespacing\subsection{\parindent}{\parskip}{\parskip}
-
-\titleformat{\subsubsection}[hang]
-% {\bfseries\normalsize}{\thesubsubsection}{1em}{}
-{\bfseries\large}{\thesubsubsection}{1em}{}
-\titlespacing\subsubsection{\parindent}{\parskip}{\parskip}
-
-% \titleformat{\chapter}{\LARGE\bfseries}{\thechapter}{20pt}{\LARGE\bfseries}
-% \titleformat{\section}{\Large\bfseries}{\thesection}{20pt}{\Large\bfseries}
-
 \usepackage{setspace}
 \onehalfspacing % Полуторный интервал
 \frenchspacing
@@ -246,7 +243,7 @@
 \usepackage{lastpage} % Для подсчета числа страниц
 
 \makeatletter
-\renewcommand\@biblabel[1]{#1.}
+\renewcommand\@biblabel[1]{#1.} % [1] -> 1. in bibliography
 \makeatother
 
 % \usepackage{color}
@@ -259,15 +256,15 @@
 
 \usepackage{blindtext}
 
-\usepackage[
-    backend=biber,
-	style=gost-numeric,
-	% style=numeric-comp,
-	language=auto,
-	autolang=other,
-	sorting=none
-]{biblatex}
-\addbibresource{bibliography.bib}
-\usepackage{xparse} % \NewDocumentCommand for creating custom commands
-\NewDocumentCommand{\printbib}{m}
-{\printbibliography[title={#1}]\addcontentsline{toc}{section}{#1}}
+% \usepackage[
+%     backend=biber,
+% 	style=gost-numeric,
+% 	% style=numeric-comp,
+% 	language=auto,
+% 	autolang=other,
+% 	sorting=none
+% ]{biblatex}
+% \addbibresource{bibliography.bib}
+% \usepackage{xparse} % \NewDocumentCommand for creating custom commands
+% \NewDocumentCommand{\printbib}{m}
+% {\printbibliography[title={#1}]\addcontentsline{toc}{section}{#1}}

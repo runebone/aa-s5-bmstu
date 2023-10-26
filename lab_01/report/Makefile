@@ -2,8 +2,8 @@ PDF = index.pdf
 MAIN = main
 FLAGS = -shell-escape
 
-# all:
-	# make bib
+all:
+	make bib
 
 $(PDF) : $(MAIN).tex *.tex report/*.tex
 	pdflatex $(FLAGS) $<
@@ -11,6 +11,13 @@ $(PDF) : $(MAIN).tex *.tex report/*.tex
 	mv $(MAIN).pdf $(PDF)
 
 bib: $(MAIN).tex *.tex report/*.tex
+	pdflatex $(FLAGS) $<
+	bibtex $(MAIN).aux
+	pdflatex $(FLAGS) $<
+	pdflatex $(FLAGS) $<
+	mv $(MAIN).pdf $(PDF)
+
+biber: $(MAIN).tex *.tex report/*.tex
 	pdflatex $(FLAGS) $<
 	biber $(MAIN).bcf
 	pdflatex $(FLAGS) $<

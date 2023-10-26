@@ -38,7 +38,7 @@
 
 % This works fine instead
 \usepackage{etoolbox}
-\patchcmd{\section}{\normalfont}{\centering\normalfont}{}{}
+\patchcmd{\section}{\Large}{\centering\large}{}{}
 
 % Переопределение их отступов до и после для 1.5 интервала во всем документе
 \usepackage{setspace}
@@ -75,7 +75,7 @@
 	language=C++,   					% выбор языка для подсветки	
 	numbers=left,						% где поставить нумерацию строк (слева\справа)
 	numbersep=5pt,
-	% numberstyle=,					    % размер шрифта для номеров строк
+	numberstyle=\tiny,					    % размер шрифта для номеров строк
 	% stepnumber=1,						% размер шага между двумя номерами строк
 	xleftmargin=17pt,
 	% showstringspaces=false,

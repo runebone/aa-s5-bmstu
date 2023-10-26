@@ -1,5 +1,5 @@
 CompileFlags:
     Add:
     - -I/nix/var/nix/profiles/per-user/human/profile/include
-    - -I/home/human/Code/googletest/googletest/include
-    - -I/home/human/Code/googletest/googlemock/include
+    - -I/home/human/Code/include/googletest/googletest/include
+    - -I/home/human/Code/include/googletest/googlemock/include

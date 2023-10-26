@@ -74,10 +74,15 @@ int main(int argc, char *argv[])
             size_t dlr = damerau_levenshtein_recursive_no_cache(s1, len1, s2, len2);
             size_t dlrc = damerau_levenshtein_recursive_with_cache(s1, len1, s2, len2);
 
-            wprintf(L"%-41ls: %ld\n", L"Levenshtein Iterative", li);
-            wprintf(L"%-41ls: %ld\n", L"Damerau-Levenshtein Iterative", dli);
-            wprintf(L"%-41ls: %ld\n", L"Damerau-Levenshtein Recursive No Cache", dlr);
-            wprintf(L"%-41ls: %ld\n", L"Damerau-Levenshtein Recursive With Cache", dlrc);
+            /* wprintf(L"%-41ls: %ld\n", L"Levenshtein Iterative", li); */
+            /* wprintf(L"%-41ls: %ld\n", L"Damerau-Levenshtein Iterative", dli); */
+            /* wprintf(L"%-41ls: %ld\n", L"Damerau-Levenshtein Recursive No Cache", dlr); */
+            /* wprintf(L"%-41ls: %ld\n", L"Damerau-Levenshtein Recursive With Cache", dlrc); */
+
+            wprintf(L"%-45ls: %ld\n", L"Левенштейн Итеративный", li);
+            wprintf(L"%-45ls: %ld\n", L"Дамерау-Левенштейн Итеративный", dli);
+            wprintf(L"%-45ls: %ld\n", L"Дамерау-Левенштейн Рекурсивный", dlr);
+            wprintf(L"%-45ls: %ld\n", L"Дамерау-Левенштейн Рекурсивный с кешированием", dlrc);
         }
         else if (c == 2)
         {

@@ -7,8 +7,8 @@ set(INCS_DIR /nix/var/nix/profiles/per-user/human/profile/include)
 
 include_directories(
     ${INCS_DIR}
-    /home/human/Code/googletest/googletest/include
-    /home/human/Code/googletest/googlemock/include
+    /home/human/Code/include/googletest/googletest/include
+    /home/human/Code/include/googletest/googlemock/include
     )
 
 link_directories(

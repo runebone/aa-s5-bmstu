@@ -1,27 +1,28 @@
 PDF = index.pdf
 MAIN = main
 FLAGS = -shell-escape
+CC = pdflatex
 
 all:
 	make bib
 
 $(PDF) : $(MAIN).tex *.tex report/*.tex
-	pdflatex $(FLAGS) $<
-	pdflatex $(FLAGS) $<
+	$(CC) $(FLAGS) $<
+	$(CC) $(FLAGS) $<
 	mv $(MAIN).pdf $(PDF)
 
 bib: $(MAIN).tex *.tex report/*.tex
-	pdflatex $(FLAGS) $<
+	$(CC) $(FLAGS) $<
 	bibtex $(MAIN).aux
-	pdflatex $(FLAGS) $<
-	pdflatex $(FLAGS) $<
+	$(CC) $(FLAGS) $<
+	$(CC) $(FLAGS) $<
 	mv $(MAIN).pdf $(PDF)
 
 biber: $(MAIN).tex *.tex report/*.tex
-	pdflatex $(FLAGS) $<
+	$(CC) $(FLAGS) $<
 	biber $(MAIN).bcf
-	pdflatex $(FLAGS) $<
-	pdflatex $(FLAGS) $<
+	$(CC) $(FLAGS) $<
+	$(CC) $(FLAGS) $<
 	mv $(MAIN).pdf $(PDF)
 
 clean:

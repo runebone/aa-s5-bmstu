@@ -9,7 +9,7 @@
 \usepackage{multirow}
 
 \usepackage{tikz}
-% \usepackage{pgfplots}
+\usetikzlibrary{shapes, shapes.geometric, arrows, arrows.meta, positioning}
 
 \usepackage{caption}
 \captionsetup{labelsep=endash}
@@ -20,7 +20,7 @@
 
 \usepackage{geometry}
 \geometry{left=30mm}
-\geometry{right=15mm}
+\geometry{right=10mm}
 \geometry{top=20mm}
 \geometry{bottom=20mm}
 
@@ -39,7 +39,9 @@
 
 % This works fine instead
 \usepackage{etoolbox}
-\patchcmd{\section}{\normalfont}{\centering\normalfont}{}{}
+% \patchcmd{\section}{\normalfont}{\centering\normalfont}{}{}
+% \patchcmd{\section}{\large}{\centering\large}{}{}
+\patchcmd{\section}{\Large}{\centering\large}{}{}
 
 % Переопределение их отступов до и после для 1.5 интервала во всем документе
 \usepackage{setspace}
@@ -76,7 +78,6 @@
 	language=C++,   					% выбор языка для подсветки	
 	numbers=left,						% где поставить нумерацию строк (слева\справа)
 	numbersep=5pt,
-	% numberstyle=,					    % размер шрифта для номеров строк
 	% stepnumber=1,						% размер шага между двумя номерами строк
 	xleftmargin=17pt,
 	% showstringspaces=false,
@@ -89,6 +90,7 @@
 	escapeinside={\#*}{*)},				% если нужно добавить комментарии в коде
 	inputencoding=utf8x,
 	backgroundcolor=\color{white},
+	numberstyle=\tiny,					    % размер шрифта для номеров строк
 	keywordstyle=\color{blue},
 	stringstyle=\color{red!90!black}, % color of text in ""
 	commentstyle=\color{green!50!black}

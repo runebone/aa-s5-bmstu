@@ -4,11 +4,12 @@
 
 \begin{document}
 
-\counterwithin{lstlisting}{section}
-\counterwithin{figure}{section}
+% \counterwithin{lstlisting}{section}
+% \counterwithin{figure}{section}
 
 \include{title}
 \setcounter{page}{2}
+\renewcommand{\contentsname}{СОДЕРЖАНИЕ}
 \tableofcontents
 
 \include{report/00-introduction}
@@ -19,5 +20,11 @@
 \include{report/05-conclusion}
 \include{report/06-bibliography}
 \cite{levenshtein}
+
+\begin{lstinputlisting}[
+	label={lst:algo1},
+	caption={Итеративный алгоритм нахождения расстояния Левенштейна},
+	]{lst/l4.cpp}
+\end{lstinputlisting}
 
 \end{document}

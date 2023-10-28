@@ -1,1 +1,4 @@
 build
+out
+default.nix
+lab_01/benchmark/data.csv

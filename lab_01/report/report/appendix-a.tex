@@ -1,0 +1,91 @@
+\section*{ПРИЛОЖЕНИЕ А}\addcontentsline{toc}{section}{ПРИЛОЖЕНИЕ А}
+
+\begin{lstinputlisting}[
+	label={lst:cm},
+	caption={Создание матрицы для последующего использования в реализациях алгоритмов нахождения расстояний Левенштейна и Дамерау --- Левенштейна},
+	]{lst/create_matrix.cpp}
+\end{lstinputlisting}
+
+\begin{lstinputlisting}[
+	label={lst:fm},
+	caption={Освобождение памяти из-под созданной матрицы},
+	]{lst/free_matrix.cpp}
+\end{lstinputlisting}
+
+\begin{lstinputlisting}[
+	label={lst:min3},
+	caption={Нахождение минимального числа из трёх и возврат указателя на него},
+	]{lst/min3.cpp}
+\end{lstinputlisting}
+
+\begin{lstinputlisting}[
+	label={lst:min4},
+	caption={Нахождение минимального числа из четырёх и возврат указателя на него},
+	]{lst/min4.cpp}
+\end{lstinputlisting}
+
+% \begin{lstinputlisting}[
+% 	label={lst:mrou},
+% 	caption={Прокрутка матрицы на одну строку вверх},
+% 	]{lst/matrix_roll_one_up.cpp}
+% \end{lstinputlisting}
+
+% \begin{lstinputlisting}[
+% 	label={lst:mrod},
+% 	caption={Прокрутка матрицы на одну строку вниз},
+% 	]{lst/matrix_roll_one_down.cpp}
+% \end{lstinputlisting}
+
+% \begin{lstinputlisting}[
+% 	label={lst:limh},
+% 	caption={},
+% 	]{lst/lev_im_helper.cpp}
+% \end{lstinputlisting}
+
+% \begin{lstinputlisting}[
+% 	label={lst:lim},
+% 	caption={},
+% 	]{lst/lev_im.cpp}
+% \end{lstinputlisting}
+
+\begin{lstinputlisting}[
+	label={lst:lifmh},
+	caption={Часть реализации итеративного алгоритма нахождения расстояния Левенштейна, участвующая в замерах времени выполнения реализаций исследуемых алгоритмов},
+	]{lst/lev_ifm_helper.cpp}
+\end{lstinputlisting}
+
+\begin{lstinputlisting}[
+	label={lst:lifm},
+	caption={Реализация итеративного алгоритма нахождения расстояния Левенштейна},
+	]{lst/lev_ifm.cpp}
+\end{lstinputlisting}
+
+\begin{lstinputlisting}[
+	label={lst:dlifmh},
+	caption={Часть реализации итеративного алгоритма нахождения расстояния Дамерау --- Левенштейна, участвующая в замерах времени выполнения реализаций исследуемых алгоритмов},
+	]{lst/damlev_ifm_helper.cpp}
+\end{lstinputlisting}
+
+\begin{lstinputlisting}[
+	label={lst:dlifm},
+	caption={Реализация итеративного алгоритма нахождения расстояния Дамерау --- Левенштейна},
+	]{lst/damlev_ifm.cpp}
+\end{lstinputlisting}
+
+\begin{lstinputlisting}[
+	label={lst:dlrwch},
+	caption={Часть реализации рекурсивного с кешированием алгоритма нахождения расстояния Дамерау --- Левенштейна, участвующая в замерах времени выполнения реализаций исследуемых алгоритмов},
+	]{lst/damlev_rwc_helper.cpp}
+\end{lstinputlisting}
+
+\begin{lstinputlisting}[
+	label={lst:dlrwc},
+	caption={Реализация рекурсивного с кешированием алгоритма нахождения расстояния Дамерау --- Левенштейна},
+	]{lst/damlev_rwc.cpp}
+\end{lstinputlisting}
+
+\begin{lstinputlisting}[
+	label={lst:dlrec},
+    caption={Реализация рекурсивного алгоритма нахождения расстояния Дамерау --- Левенштейна},
+	]{lst/damlev_rec.cpp}
+\end{lstinputlisting}

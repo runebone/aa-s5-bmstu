@@ -39,6 +39,8 @@ ENTRY
     school
     series
     title
+    etitle
+    accessed
     type
     volume
     year
@@ -636,6 +638,15 @@ FUNCTION {format.title}
   if$
 }
 
+FUNCTION {format.etitle}
+{ etitle empty$
+    { "" }
+    { after.sentence 'output.state :=
+      etitle " [Электронный ресурс]" * "" *
+    }
+  if$
+}
+
 FUNCTION {format.date}
 { year empty$
     { month empty$
@@ -1015,8 +1026,15 @@ FUNCTION {editor.organization.after}
 FUNCTION {format.url}
 { url empty$
     { "" }
-    { after.sentence 'output.state :=
-      "URL:  " url * "" *
+    {
+        accessed empty$
+        { after.sentence 'output.state :=
+            "--- Режим доступа: " url * "" *
+        }
+        { after.sentence 'output.state :=
+            "--- Режим доступа: " url * " (дата обращения: " * accessed * ")" *
+        }
+        if$
     }
   if$
 }
@@ -1288,6 +1306,7 @@ FUNCTION {misc}
   format.authors output
   title howpublished new.sentence.checkb
   format.btitle output
+  format.etitle output
   howpublished new.block.checka
   howpublished output
   new.block

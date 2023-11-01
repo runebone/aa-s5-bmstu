@@ -50,37 +50,61 @@
 На рисунке \ref{fig:lifm} представлена схема алгоритма нахождения расстояния Левенштейна.
 На рисунках \ref{fig:dlifm} -- \ref{fig:dlrwch} представлены схемы алгоритмов нахождения расстояния Дамерау --- Левенштейна.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{img/lev_ifm.pdf}
 	\caption{Итерационный алгоритм нахождения расстояния Левенштейна}
 	\label{fig:lifm}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6]{img/dlev_ifm.pdf}
 	\caption{Итерационный алгоритм нахождения расстояния Дамерау --- Левенштейна}
 	\label{fig:dlifm}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{img/dlev_rec.pdf}
+	\includegraphics[scale=0.55]{img/dlev_rec.pdf}
 	\caption{Рекурсивный алгоритм нахождения расстояния Дамерау --- Левенштейна}
 	\label{fig:dlrec}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{img/dlev_rwc.pdf}
+	\includegraphics[scale=0.55]{img/dlev_rwc.pdf}
 	\caption{Рекурсивный с кешированием алгоритм нахождения расстояния Дамерау --- Левенштейна}
 	\label{fig:dlrwc}
 \end{figure}
 
-\begin{figure}[h]
+\newpage
+
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{img/dlrwch.pdf}
 	\caption{Рекурсивная функция нахождения расстояния Дамерау --- Левенштейна с использованием матрицы в качестве кеша}
 	\label{fig:dlrwch}
 \end{figure}
+
+\subsection{Описание типов и структур данных}
+
+Для реализации алгоритмов будут использованы следующие типы и структуры данных:
+\begin{itemize}
+    \item $\mathrm{wchar\_t}$ --- для символов в кодировке \texttt{Unicode}, из которых состоят строки;
+    \item $\mathrm{wchar\_t*}$ --- для строк, подаваемых на вход;
+    \item $\mathrm{size\_t}\ (\mathrm{unsigned\ long\ int})$ --- для длин строк; для вычисленных расстояний Левенштейна и Дамерау --- Левенштейна (как возвращаемых из функций, так и хранящихся в матрице); для размеров матрицы при её создании;
+    \item $\mathrm{size\_t*}$ --- для строк матрицы;
+    \item $\mathrm{size\_t**}$ --- для матрицы (массива указателей на строки);
+    \item $\mathrm{struct\ BenchmarkData}\ (\text{см. \ref{lst:sbd}})$ --- для временного хранения данных о замерах времени реализаций алгоритмов.
+\end{itemize}
+
+\begin{lstinputlisting}[
+	label={lst:sbd},
+	caption={Структура для временного хранения данных о замерах времени реализаций алгоритмов},
+	]{lst/benchmarkdata.cpp}
+\end{lstinputlisting}
+
+\subsection*{Вывод}
+
+В данном разделе на основе теоретических данных были построены схемы алгоритмов, выбраны типы и структуры данных, которые будут использоваться в реализации алгоритмов.

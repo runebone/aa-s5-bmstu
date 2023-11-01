@@ -62,22 +62,30 @@
     \mathcal{D}(S_1[1 .. i], S_2[1 .. j]) = \\
     = \begin{cases}
         \begin{aligned}
-            &\mathrm{max}(i,\ j), &\text{если}\ i \cdot j = 0; \\
+            &\mathrm{max}(i,\ j), &\parbox{2cm}{$i \cdot j = 0$;} \\
             &\mathrm{min} \begin{cases}
                 \mathcal{D}(S_1[1 .. i], S_2[1 .. j - 1]) + 1, \\
                 \mathcal{D}(S_1[1 .. i - 1], S_2[1 .. j]) + 1, \\
                 \mathcal{D}(S_1[1 .. i - 1], S_2[1 .. j - 1]) + w(S_1[i], S_2[j]), \\
+                \begin{cases}
+                    % \begin{aligned}
                 \mathcal{D}(S_1[1 .. i - 2], S_2[1 .. j - 2]) + 1,
-                \end{cases} &\parbox{3.5cm}{
+                % \end{cases}
+                &\parbox{3.5cm}{
                     \raggedleft если $i > 1,\ j > 1$,
                     $S_1[i] = S_2[j - 1]$,
                     $S_1[i - 1] = S_2[j]$;
                 } \\ % XXX: how to do auto width?
-            &\mathrm{min} \begin{cases}
-                \mathcal{D}(S_1[1 .. i], S_2[1 .. j - 1]) + 1, \\
-                \mathcal{D}(S_1[1 .. i - 1], S_2[1 .. j]) + 1, \\
-                \mathcal{D}(S_1[1 .. i - 1], S_2[1 .. j - 1]) + w(S_1[i], S_2[j]),
-                \end{cases} &\text{иначе},
+                    \infty, &\parbox{3.5cm}{\raggedleft иначе,}
+                    % \end{aligned}
+                \end{cases}
+                \end{cases}
+                &i \cdot j \neq 0,%&\text{иначе,}
+            % &\mathrm{min} \begin{cases}
+            %     \mathcal{D}(S_1[1 .. i], S_2[1 .. j - 1]) + 1, \\
+            %     \mathcal{D}(S_1[1 .. i - 1], S_2[1 .. j]) + 1, \\
+            %     \mathcal{D}(S_1[1 .. i - 1], S_2[1 .. j - 1]) + w(S_1[i], S_2[j]),
+            %     \end{cases} &\text{иначе},
         \end{aligned}
     \end{cases}
     \label{eq:damlev}

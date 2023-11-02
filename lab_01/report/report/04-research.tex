@@ -37,8 +37,50 @@
 	\label{fig:demo3}
 \end{figure}
 
+\newpage
 
 \subsection{Временные характеристики}
+
+На графиках \ref{fig:fn_iter} -- \ref{fig:fn_four} представлены результаты замеров времени выполнения реализаций алгоритмов нахождения расстояний Левенштейна и Дамерау~---~Левенштейна.
+Замеры времени проводились для строк одинаковой длины.
+Отображённое на графиках время является усреднённым для каждой длины строк.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/fn_iter.pdf}
+	\caption{Сравнение реализаций итерационных алгоритмов по времени выполнения (среднее время из 100 замеров)}
+	\label{fig:fn_iter}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/fn_rec.pdf}
+	\caption{Сравнение реализаций рекурсивных алгоритмов по времени выполнения (среднее время из 10 замеров)}
+	\label{fig:fn_rec}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/fn_damlev_iter_rec.pdf}
+	\caption{Сравнение итерационной и рекурсивной с кешированием реализации алгоритмов нахождения расстояния Дамерау --- Левенштейна по времени выполнения (среднее время из 100 замеров)}
+	\label{fig:fn_dlir}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/fn_three.pdf}
+	\caption{Сравнение итерационных и рекурсивной с кешированием реализаций алгоритмов нахождения расстояний Левенштейна и Дамерау~---~Левенштейна по времени выполнения (среднее время из 100 замеров)}
+	\label{fig:fn_three}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/fn_four.pdf}
+	\caption{Сравнение всех реализаций алгоритмов по времени выполнения (среднее время из 10 замеров)}
+	\label{fig:fn_four}
+\end{figure}
+
+\newpage
 
 \subsection{Характеристики по памяти}
 

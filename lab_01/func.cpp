@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <vector>
 
+#include "colors.h"
+
 #ifdef MEASURE_STACK
 #include "globals.h"
 #endif
@@ -153,6 +155,7 @@ void pm(size_t **matrix, size_t r, size_t c)
 
 void print_matrix_and_strings(size_t **matrix, size_t r, size_t c, const wchar_t *str1, const wchar_t *str2)
 {
+    wprintf(TCC);
     wprintf(L"%2lc ", ' ');
     wprintf(L"%2lc ", L'λ');
     for (size_t j = 1; j < c; j++)
@@ -162,6 +165,7 @@ void print_matrix_and_strings(size_t **matrix, size_t r, size_t c, const wchar_t
     wprintf(L"\n");
 
     wprintf(L"%2lc ", L'λ');
+    wprintf(RC);
     for (size_t j = 0; j < c; j++)
     {
         wprintf(L"%2d ", matrix[0][j]);
@@ -170,7 +174,9 @@ void print_matrix_and_strings(size_t **matrix, size_t r, size_t c, const wchar_t
 
     for (size_t i = 1; i < r; i++)
     {
+        wprintf(TCC);
         wprintf(L"%2lc ", str1[i - 1]);
+        wprintf(RC);
         for (size_t j = 0; j < c; j++)
         {
             wprintf(L"%2d ", matrix[i][j]);
@@ -384,9 +390,11 @@ size_t levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const
     size_t result = lev_ifm_helper(matrix, s1, len1, s2, len2);
 
     // Printing stuff
+    wprintf(TCY L"Левенштейн итерационный:\n" RC);
     print_matrix_and_strings(matrix, len1, len2, str1, str2);
+    wprintf(L"Редакторские операции: " TCR);
     print_lev_trace(matrix, len1, len2);
-    wprintf(L"%d\n", result);
+    wprintf(RC L"Результат: %ls%d%ls\n\n", TCG, result, RC);
 
     free_matrix(matrix, matrix[0]);
 
@@ -452,9 +460,12 @@ size_t damerau_levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len
     size_t result = damlev_ifm_helper(matrix, s1, len1, s2, len2);
 
     // Printing stuff
+    wprintf(TCY L"Дамерау-Левенштейн итерационный:\n" RC);
     print_matrix_and_strings(matrix, len1, len2, str1, str2);
+    wprintf(L"Редакторские операции: " TCR);
     print_damlev_trace(matrix, len1, len2, str1, str2);
-    wprintf(L"%d\n", result);
+    /* wprintf(RC L"Результат: %d\n\n", result); */
+    wprintf(RC L"Результат: %ls%d%ls\n\n", TCG, result, RC);
 
     free_matrix(matrix, matrix[0]);
 

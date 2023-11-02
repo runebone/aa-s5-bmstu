@@ -278,7 +278,7 @@ void print_damlev_trace(size_t **matrix, size_t r, size_t c, const wchar_t *str1
         }
         else
         {
-            trace.push_back('S');
+            trace.push_back('T');
             i -= 2;
             j -= 2;
         }

@@ -19,6 +19,15 @@ def f(value):
         return np.nan
     return value
 
+def ms(value):
+    return value / 1000000
+
+x["tlim"]   = x["tlim"].apply(ms) # type: ignore // For LSP
+x["tlifm"]  = x["tlifm"].apply(ms) # type: ignore // For LSP
+x["tdlifm"] = x["tdlifm"].apply(ms) # type: ignore // For LSP
+x["tdlr"]   = x["tdlr"].apply(ms) # type: ignore // For LSP
+x["tdlrc"]  = x["tdlrc"].apply(ms) # type: ignore // For LSP
+
 x["tdlr"] = x["tdlr"].apply(f) # type: ignore // For LSP
 x["ndlr"] = x["ndlr"].apply(f) # type: ignore // For LSP
 x["sdlr"] = x["sdlr"].apply(f) # type: ignore // For LSP
@@ -50,16 +59,19 @@ hdlrc  = x["hdlrc"] # type: ignore
 
 fig, ax = plt.subplots()
 
-# ax.plot(lengths, tlim, label='Левенштейн итерационный (оптимизация по памяти)') # type: ignore
+# ax.plot(lengths, tlim, label='Левенштейн итерационный (оптимизация по памяти)', marker='o') # type: ignore
 
 # Time
-ax.plot(lengths, tlifm, label='Левенштейн итерационный', marker='^') # type: ignore
-ax.plot(lengths, tdlrc, label='Дамерау-Левенштейн рекурсивный (с кешированием)', marker='X') # type: ignore
-ax.plot(lengths, tdlifm, label='Дамерау-Левенштейн итерационный', marker='o') # type: ignore
-ax.plot(lengths, tdlr, label='Дамерау-Левенштейн рекурсивный', marker='s') # type: ignore
-ax.set_xlabel('Длина строк в символах') # type: ignore
-ax.set_ylabel('Время выполнения, нс') # type: ignore
-ax.legend() # type: ignore
+# ax.plot(lengths, tlifm, label='Левенштейн итерационный', marker='^') # type: ignore
+# ax.plot(lengths, tdlrc, label='Дамерау-Левенштейн рекурсивный (с кешированием)', marker='X') # type: ignore
+# ax.plot(lengths, tdlifm, label='Дамерау-Левенштейн итерационный', marker='o') # type: ignore
+# ax.plot(lengths, tdlr, label='Дамерау-Левенштейн рекурсивный', marker='s') # type: ignore
+# ax.set_xlabel('Длина строк в символах') # type: ignore
+# ax.set_ylabel('Время выполнения, нс') # type: ignore
+# ax.set_ylabel('Время выполнения, мс') # type: ignore
+# ax.legend() # type: ignore
+
+# ax.ticklabel_format(style='plain') # type: ignore
 
 # # Stack
 # ax.plot(lengths, slifm, label='Левенштейн итерационный', marker='^') # type: ignore
@@ -78,15 +90,16 @@ ax.legend() # type: ignore
 # ax.legend() # type: ignore
 
 # # Heap
-# ax.plot(lengths, hlifm, label='Левенштейн итерационный', marker='^') # type: ignore
+# ax.plot(lengths, hlim, label='Левенштейн итерационный (оптимизация по памяти)', marker='o') # type: ignore
+ax.plot(lengths, hlifm, label='Левенштейн итерационный', marker='X') # type: ignore
 # ax.plot(lengths, hdlrc, label='Дамерау-Левенштейн рекурсивный (с кешированием)', marker='X') # type: ignore
-# ax.plot(lengths, hdlifm, label='Дамерау-Левенштейн итерационный', marker='o') # type: ignore
+ax.plot(lengths, hdlifm, label='Дамерау-Левенштейн итерационный', marker='') # type: ignore
 # ax.plot(lengths, hdlr, label='Дамерау-Левенштейн рекурсивный', marker='s') # type: ignore
 # ax.set_xlabel('Длина строк в символах') # type: ignore
 # ax.set_ylabel('Выделено памяти в куче, байт') # type: ignore
-# ax.legend() # type: ignore
+ax.legend() # type: ignore
 
-plt.yscale('log')
+# plt.yscale('log')
 
 plt.grid()
 plt.show()

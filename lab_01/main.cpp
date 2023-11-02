@@ -89,8 +89,8 @@ int main(int argc, char *argv[])
             /* wprintf(L"%-41ls: %ld\n", L"Damerau-Levenshtein Recursive With Cache", dlrc); */
 
             wprintf(RC);
-            wprintf(L"%-46ls: %ld\n", L"Левенштейн Итеративный", li);
-            wprintf(L"%-46ls: %ld\n", L"Дамерау-Левенштейн Итеративный", dli);
+            wprintf(L"%-46ls: %ld\n", L"Левенштейн Итерационный", li);
+            wprintf(L"%-46ls: %ld\n", L"Дамерау-Левенштейн Итерационный", dli);
             wprintf(L"%-46ls: %ld\n", L"Дамерау-Левенштейн Рекурсивный", dlr);
             wprintf(L"%-46ls: %ld\n", L"Дамерау-Левенштейн Рекурсивный с кешированием", dlrc);
             wprintf(L"\n");

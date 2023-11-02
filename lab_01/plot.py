@@ -50,21 +50,21 @@ hdlrc  = x["hdlrc"] # type: ignore
 
 fig, ax = plt.subplots()
 
-# ax.plot(lengths, tlim, label='Левенштейн итеративный (оптимизация по памяти)') # type: ignore
+# ax.plot(lengths, tlim, label='Левенштейн итерационный (оптимизация по памяти)') # type: ignore
 
 # Time
-ax.plot(lengths, tlifm, label='Левенштейн итеративный', marker='^') # type: ignore
+ax.plot(lengths, tlifm, label='Левенштейн итерационный', marker='^') # type: ignore
 ax.plot(lengths, tdlrc, label='Дамерау-Левенштейн рекурсивный (с кешированием)', marker='X') # type: ignore
-ax.plot(lengths, tdlifm, label='Дамерау-Левенштейн итеративный', marker='o') # type: ignore
+ax.plot(lengths, tdlifm, label='Дамерау-Левенштейн итерационный', marker='o') # type: ignore
 ax.plot(lengths, tdlr, label='Дамерау-Левенштейн рекурсивный', marker='s') # type: ignore
 ax.set_xlabel('Длина строк в символах') # type: ignore
 ax.set_ylabel('Время выполнения, нс') # type: ignore
 ax.legend() # type: ignore
 
 # # Stack
-# ax.plot(lengths, slifm, label='Левенштейн итеративный', marker='^') # type: ignore
+# ax.plot(lengths, slifm, label='Левенштейн итерационный', marker='^') # type: ignore
 # ax.plot(lengths, sdlrc, label='Дамерау-Левенштейн рекурсивный (с кешированием)', marker='X') # type: ignore
-# ax.plot(lengths, sdlifm, label='Дамерау-Левенштейн итеративный', marker='o') # type: ignore
+# ax.plot(lengths, sdlifm, label='Дамерау-Левенштейн итерационный', marker='o') # type: ignore
 # ax.plot(lengths, sdlr, label='Дамерау-Левенштейн рекурсивный', marker='s') # type: ignore
 # ax.set_xlabel('Длина строк в символах') # type: ignore
 # ax.set_ylabel('Максимальная высота стека, байт') # type: ignore
@@ -78,9 +78,9 @@ ax.legend() # type: ignore
 # ax.legend() # type: ignore
 
 # # Heap
-# ax.plot(lengths, hlifm, label='Левенштейн итеративный', marker='^') # type: ignore
+# ax.plot(lengths, hlifm, label='Левенштейн итерационный', marker='^') # type: ignore
 # ax.plot(lengths, hdlrc, label='Дамерау-Левенштейн рекурсивный (с кешированием)', marker='X') # type: ignore
-# ax.plot(lengths, hdlifm, label='Дамерау-Левенштейн итеративный', marker='o') # type: ignore
+# ax.plot(lengths, hdlifm, label='Дамерау-Левенштейн итерационный', marker='o') # type: ignore
 # ax.plot(lengths, hdlr, label='Дамерау-Левенштейн рекурсивный', marker='s') # type: ignore
 # ax.set_xlabel('Длина строк в символах') # type: ignore
 # ax.set_ylabel('Выделено памяти в куче, байт') # type: ignore

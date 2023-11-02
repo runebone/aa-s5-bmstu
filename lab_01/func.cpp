@@ -4,6 +4,10 @@
 #include <stdlib.h>
 #include <vector>
 
+#ifdef MEASURE_STACK
+#include "globals.h"
+#endif
+
 #define U_INF -1U // Unsigned infinity
 
 size_t **create_matrix(size_t n_rows, size_t n_columns)
@@ -284,6 +288,10 @@ void print_damlev_trace(size_t **matrix, size_t r, size_t c, const wchar_t *str1
 // Algorithms
 size_t lev_im_helper(size_t **matrix_2xN, const wchar_t *s1, size_t len1, const wchar_t *s2, size_t len2)
 {
+#ifdef MEASURE_STACK
+    if ((char*)&matrix_2xN < sp)
+        sp = (char*)&matrix_2xN;
+#endif
     size_t result = 0;
     size_t insert_cost, delete_cost, replace_cost, *who;
     bool replace_skip_cond;
@@ -332,6 +340,10 @@ size_t levenshtein_iterative_matrix(const wchar_t *str1, size_t len1, const wcha
 
 size_t lev_ifm_helper(size_t **matrix, const wchar_t *s1, size_t len1, const wchar_t *s2, size_t len2)
 {
+#ifdef MEASURE_STACK
+    if ((char*)&matrix < sp)
+        sp = (char*)&matrix;
+#endif
     size_t result = 0;
     bool replace_skip_cond;
     size_t insert_cost, delete_cost, replace_cost, *who;
@@ -388,6 +400,10 @@ size_t levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len1, const
 
 size_t damlev_ifm_helper(size_t **matrix, const wchar_t *s1, size_t len1, const wchar_t *s2, size_t len2)
 {
+#ifdef MEASURE_STACK
+    if ((char*)&matrix < sp)
+        sp = (char*)&matrix;
+#endif
     size_t result = 0;
     bool replace_skip_cond, swap_cond;
     size_t insert_cost, delete_cost, replace_cost, swap_cost, *who;
@@ -447,6 +463,11 @@ size_t damerau_levenshtein_iterative_full_matrix(const wchar_t *str1, size_t len
 
 size_t damerau_levenshtein_recursive_no_cache(const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
 {
+#ifdef MEASURE_STACK
+    if ((char*)&str1 < sp)
+        sp = (char*)&str1;
+    ++n_dlr_calls;
+#endif
     if (len1 == 0) return len2;
     if (len2 == 0) return len1;
 
@@ -467,6 +488,11 @@ size_t damerau_levenshtein_recursive_no_cache(const wchar_t *str1, size_t len1, 
 
 size_t damlev_rwc_helper(size_t **matrix, const wchar_t *str1, size_t len1, const wchar_t *str2, size_t len2)
 {
+#ifdef MEASURE_STACK
+    if ((char*)&matrix < sp)
+        sp = (char*)&matrix;
+    ++n_dlrc_calls;
+#endif
     if (len1 == 0) return len2;
     if (len2 == 0) return len1;
 

@@ -6,7 +6,7 @@ endif
 LAB := lab_0$(lab)
 EXE := lab_0$(lab)
 TEST := lab_0$(lab)_test
-CFLAGS := -Wall
+CFLAGS := -Wall -DMEASURE_STACK
 CURDIR := $(shell pwd)
 
 .DEFAULT_GOAL := debug

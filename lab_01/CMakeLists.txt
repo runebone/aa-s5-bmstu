@@ -19,11 +19,13 @@ add_executable(lab_01
     main.cpp
     func.cpp
     benchmark.cpp
+    globals.cpp
     )
 
 add_executable(lab_01_test
     test.cpp
     func.cpp
+    globals.cpp
     )
 
 target_link_libraries(lab_01_test gtest gtest_main)

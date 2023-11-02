@@ -15,7 +15,7 @@ $(PDF) : $(MAIN).tex *.tex report/*.tex
 bib: $(MAIN).tex *.tex report/*.tex
 	-$(CC) $(FLAGS) $<   # > /dev/null
 	-bibtex $(MAIN).aux  > /dev/null
-	-$(CC) $(FLAGS) $<   > /dev/null
+	-$(CC) $(FLAGS) $<   # > /dev/null
 	-$(CC) $(FLAGS) $<   > /dev/null
 	-mv $(MAIN).pdf $(PDF)
 	make movebib

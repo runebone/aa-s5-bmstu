@@ -2,6 +2,7 @@
 
 ## eskd-drawio.xml
 Менее отвратительные блоки для Flowchart --- диаграм.
+![](img/lev.png)
 
 ## modified-utf8gost705.bst
 Нормальное оформление электронных источников.

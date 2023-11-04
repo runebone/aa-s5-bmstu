@@ -28,23 +28,30 @@
 
 % Переопределение стандартных \section, \subsection, \subsubsection по ГОСТу;
 
-% BUG this ugly donkey breaks \addcontentsline references
 % \usepackage{titlesec}
-% \titleformat{\section}[block]
-% {\bfseries\Large\filcenter}{\thesection}{1em}{}
-% \titleformat{\subsection}[hang]
-% {\bfseries\large}{\thesubsection}{1em}{}
-% \titlespacing\subsection{\parindent}{\parskip}{\parskip}
-% \titleformat{\subsubsection}[hang]
-% {\bfseries\large}{\thesubsubsection}{1em}{}
-% \titlespacing\subsubsection{\parindent}{\parskip}{\parskip}
+\usepackage{titlesec}[explicit]
+\titleformat{name=\section,numberless}[block]{\normalfont\large\bfseries\centering}{}{0pt}{}
+\titleformat{\section}[block]{\normalfont\large\bfseries}{\thesection}{1em}{}
+\titlespacing\section{\parindent}{*2}{*2}
+
+\titleformat{\subsection}[hang]
+{\bfseries\large}{\thesubsection}{1em}{}
+\titlespacing\subsection{\parindent}{*2}{*2}
+
+\titleformat{\subsubsection}[hang]
+{\bfseries\large}{\thesubsubsection}{1em}{}
+\titlespacing\subsubsection{\parindent}{*2}{*2}
 
 % This works fine instead
-\usepackage{etoolbox}
+% \usepackage{etoolbox}
 % \patchcmd{\section}{\normalfont}{\centering\normalfont}{}{}
-% \patchcmd{\section}{\large}{\centering\large}{}{}
-\patchcmd{\section}{\Large}{\centering\large}{}{}
-\patchcmd{\subsubsection}{\normalsize}{\large}{}{}
+% \patchcmd{\section}{\Lare}{\centering\large}{}{}
+% \patchcmd{\section}{\Large}{\large}{}{}
+% \patchcmd{\subsubsection}{\normalsize}{\large}{}{}
+
+% \patchcmd{\section}{\bfseries}{\bfseries\hspace{1em}}{}{}
+% \patchcmd{\subsection}{\bfseries}{\bfseries\hspace{1em}}{}{}
+% \patchcmd{\subsubsection}{\bfseries}{\bfseries\hspace{1em}}{}{}
 
 \usepackage{url}
 % \def\UrlOrds{\do\\\do\_\do\-\do\/\do\|\do\;\do\,\do\?\do\+\do\=\do\#\do\*\do\~\do\'\do\"}
@@ -62,6 +69,7 @@
 \usepackage{setspace}
 \onehalfspacing % Полуторный интервал
 \frenchspacing
+\setlength\parindent{1.25cm}
 
 \usepackage{indentfirst} % Красная строка
 

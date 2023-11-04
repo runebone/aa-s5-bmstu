@@ -27,21 +27,20 @@
 
 % Переопределение стандартных \section, \subsection, \subsubsection по ГОСТу;
 
-% BUG this ugly donkey breaks \addcontentsline references
-% \usepackage{titlesec}
-% \titleformat{\section}[block]
-% {\bfseries\Large\filcenter}{\thesection}{1em}{}
-% \titleformat{\subsection}[hang]
-% {\bfseries\large}{\thesubsection}{1em}{}
-% \titlespacing\subsection{\parindent}{\parskip}{\parskip}
-% \titleformat{\subsubsection}[hang]
-% {\bfseries\large}{\thesubsubsection}{1em}{}
-% \titlespacing\subsubsection{\parindent}{\parskip}{\parskip}
+\usepackage{titlesec}
+\titleformat{\section}[block]
+{\bfseries\large\filcenter}{\thesection}{1em}{}
+\titleformat{\subsection}[hang]
+{\bfseries\large}{\thesubsection}{1em}{}
+\titlespacing\subsection{\parindent}{\parskip}{\parskip}
+\titleformat{\subsubsection}[hang]
+{\bfseries\large}{\thesubsubsection}{1em}{}
+\titlespacing\subsubsection{\parindent}{\parskip}{\parskip}
 
-% This works fine instead
-\usepackage{etoolbox}
-\patchcmd{\section}{\Large}{\centering\large}{}{}
-\patchcmd{\subsubsection}{\normalsize}{\large}{}{}
+% % This works fine instead
+% \usepackage{etoolbox}
+% \patchcmd{\section}{\Large}{\centering\large}{}{}
+% \patchcmd{\subsubsection}{\normalsize}{\large}{}{}
 
 % Переопределение их отступов до и после для 1.5 интервала во всем документе
 \usepackage{setspace}

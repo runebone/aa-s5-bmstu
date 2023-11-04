@@ -10,14 +10,12 @@ size_t **create_matrix(size_t n_rows, size_t n_columns)
 
     size_t **matrix = (size_t**)malloc(n_rows * sizeof(size_t*));
 
-    if (matrix == NULL)
-    {
+    if (matrix == NULL) {
         free(mem);
         return NULL;
     }
 
-    for (size_t i = 0; i < n_rows; i++)
-    {
+    for (size_t i = 0; i < n_rows; i++) {
         matrix[i] = mem + i * n_columns;
         matrix[i][0] = i;
     }

@@ -22,12 +22,9 @@ size_t damlev_rwc_helper(size_t **matrix, const wchar_t *str1, size_t len1, cons
         + (str1[i] == str2[j] ? 0 : 1);
 
     size_t swap = U_INF;
-    if (i > 1 && j > 1 && matrix[i - 2][j - 2] != U_INF && (str1[i] == str2[j - 1] && str1[i - 1] == str2[j]))
-    {
+    if (i > 1 && j > 1 && matrix[i - 2][j - 2] != U_INF && (str1[i] == str2[j - 1] && str1[i - 1] == str2[j])) {
         swap = matrix[i - 2][j - 2] + 1;
-    }
-    else if (i >= 1 && j >= 1 && (str1[i] == str2[j - 1] && str1[i - 1] == str2[j]))
-    {
+    } else if (i >= 1 && j >= 1 && (str1[i] == str2[j - 1] && str1[i - 1] == str2[j])) {
         swap = damlev_rwc_helper(matrix, str1, len1 - 2, str2, len2 - 2) + 1;
     }
 

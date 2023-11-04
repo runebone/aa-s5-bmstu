@@ -27,25 +27,24 @@
 
 % Переопределение стандартных \section, \subsection, \subsubsection по ГОСТу;
 
-\usepackage{titlesec}
-\titleformat{\section}[block]
-{\bfseries\large\filcenter}{\thesection}{1em}{}
+\usepackage{titlesec}[explicit]
+\titleformat{name=\section,numberless}[block]{\normalfont\large\bfseries\centering}{}{0pt}{}
+\titleformat{\section}[block]{\normalfont\large\bfseries}{\thesection}{1em}{}
+\titlespacing\section{\parindent}{*2}{*2}
+
 \titleformat{\subsection}[hang]
 {\bfseries\large}{\thesubsection}{1em}{}
-\titlespacing\subsection{\parindent}{\parskip}{\parskip}
+\titlespacing\subsection{\parindent}{*2}{*2}
+
 \titleformat{\subsubsection}[hang]
 {\bfseries\large}{\thesubsubsection}{1em}{}
-\titlespacing\subsubsection{\parindent}{\parskip}{\parskip}
-
-% % This works fine instead
-% \usepackage{etoolbox}
-% \patchcmd{\section}{\Large}{\centering\large}{}{}
-% \patchcmd{\subsubsection}{\normalsize}{\large}{}{}
+\titlespacing\subsubsection{\parindent}{*2}{*2}
 
 % Переопределение их отступов до и после для 1.5 интервала во всем документе
 \usepackage{setspace}
 \onehalfspacing % Полуторный интервал
 \frenchspacing
+\setlength\parindent{1.25cm}
 
 \usepackage{indentfirst} % Красная строка
 

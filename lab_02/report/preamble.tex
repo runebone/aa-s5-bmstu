@@ -27,26 +27,24 @@
 
 % Переопределение стандартных \section, \subsection, \subsubsection по ГОСТу;
 
-% BUG this ugly donkey breaks \addcontentsline references
-% \usepackage{titlesec}
-% \titleformat{\section}[block]
-% {\bfseries\Large\filcenter}{\thesection}{1em}{}
-% \titleformat{\subsection}[hang]
-% {\bfseries\large}{\thesubsection}{1em}{}
-% \titlespacing\subsection{\parindent}{\parskip}{\parskip}
-% \titleformat{\subsubsection}[hang]
-% {\bfseries\large}{\thesubsubsection}{1em}{}
-% \titlespacing\subsubsection{\parindent}{\parskip}{\parskip}
+\usepackage{titlesec}[explicit]
+\titleformat{name=\section,numberless}[block]{\normalfont\large\bfseries\centering}{}{0pt}{}
+\titleformat{\section}[block]{\normalfont\large\bfseries}{\thesection}{1em}{}
+\titlespacing\section{\parindent}{*2}{*2}
 
-% This works fine instead
-\usepackage{etoolbox}
-\patchcmd{\section}{\Large}{\centering\large}{}{}
-\patchcmd{\subsubsection}{\normalsize}{\large}{}{}
+\titleformat{\subsection}[hang]
+{\bfseries\large}{\thesubsection}{1em}{}
+\titlespacing\subsection{\parindent}{*2}{*2}
+
+\titleformat{\subsubsection}[hang]
+{\bfseries\large}{\thesubsubsection}{1em}{}
+\titlespacing\subsubsection{\parindent}{*2}{*2}
 
 % Переопределение их отступов до и после для 1.5 интервала во всем документе
 \usepackage{setspace}
 \onehalfspacing % Полуторный интервал
 \frenchspacing
+\setlength\parindent{1.25cm}
 
 \usepackage{indentfirst} % Красная строка
 

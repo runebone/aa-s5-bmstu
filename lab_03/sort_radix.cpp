@@ -55,8 +55,8 @@ void radix_sort(void *base, size_t nmemb, size_t size, cmp_fn_t cmp)
     size_t ptr = 0;
 
     byte a[size], b[size];
-    memset(a, 0, size);
-    memset(b, 255, size);
+    memset(a, 255, size);
+    memset(b, 0, size);
     int order_asc = cmp(a, b);
 
     byte base_copy[nmemb * size];
@@ -83,7 +83,8 @@ void radix_sort(void *base, size_t nmemb, size_t size, cmp_fn_t cmp)
             // HACK Equivalent to (*elem & mask) when order_asc = 1, but when
             // order_asc = 0, we add ones to zero array to account for order
             // in the future, avoiding dublicating code.
-            if (((*elem & mask) > 0) ^ !order_asc) {
+            bool cond = ((*elem & mask) > 0) ^ !order_asc;
+            if (cond) {
                 one_elems[one_ptr] = elem;
                 one_ptr++;
             } else {
@@ -94,14 +95,14 @@ void radix_sort(void *base, size_t nmemb, size_t size, cmp_fn_t cmp)
 
         for (; zero_ptr; zero_ptr--) {
             void *dst = (byte*)base_copy + size * ptr;
-            void *src = zero_elems[zero_cnt];
+            void *src = (byte*)zero_elems[zero_cnt] - byte_ptr;
             memcpy(dst, src, size);
             zero_cnt++;
             ptr++;
         }
         for (; one_ptr; one_ptr--) {
             void *dst = (byte*)base_copy + size * ptr;
-            void *src = one_elems[one_cnt];
+            void *src = (byte*)one_elems[one_cnt] - byte_ptr;
             memcpy(dst, src, size);
             one_cnt++;
             ptr++;

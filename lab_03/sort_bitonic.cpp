@@ -5,7 +5,7 @@ void bitonic_merge(void *base, size_t nmemb, size_t size, cmp_fn_t cmp)
     if (nmemb > 1) {
         size_t k = nmemb / 2;
 
-        for (int i = 0; i < k; i++) {
+        for (size_t i = 0; i < k; i++) {
             void *a = (char*)base + size * i;
             void *b = (char*)base + size * (i + k);
             if (cmp(a, b))

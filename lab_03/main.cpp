@@ -1,70 +1,10 @@
 #include <algorithm>
 #include <cstdio>
 #include <vector>
-#include <functional>
-#include <memory.h>
 #include <wchar.h>
 #include <iostream>
 
-using cmp_fn_t = std::function<int(const void*, const void*)>;
-
-template<typename T>
-int asc(const void *a, const void *b)
-{
-    // Remove &
-    using U = std::decay_t<T>;
-    return *((U*)a) > *((U*)b);
-}
-
-cmp_fn_t inverse(cmp_fn_t cmp)
-{
-    return [cmp](const void *a, const void *b){ return cmp(b, a); };
-}
-
-inline void swap(void *a, void *b, size_t size)
-{
-    char t[size];
-    memcpy(t, a, size);
-    memcpy(a, b, size);
-    memcpy(b, t, size);
-}
-
-void bitonic_merge(void *base, size_t nmemb, size_t size, cmp_fn_t cmp)
-{
-    if (nmemb > 1) {
-        size_t k = nmemb / 2;
-
-        for (int i = 0; i < k; i++) {
-            void *a = (char*)base + size * i;
-            void *b = (char*)base + size * (i + k);
-            if (cmp(a, b))
-                swap(a, b, size);
-        }
-
-        bitonic_merge(base, k, size, cmp);
-        bitonic_merge((char*)base + size * k, k, size, cmp);
-    }
-}
-
-/* Sort NMEMB elements of BASE, of SIZE bytes each, using CMP to perform the comparisons. */
-void bitonic_sort(void *base, size_t nmemb, size_t size, cmp_fn_t cmp)
-{
-    if (nmemb > 1) {
-        size_t k = nmemb / 2;
-
-        bitonic_sort(base, k, size, cmp);
-        bitonic_sort((char*)base + size * k, k, size, inverse(cmp));
-        bitonic_merge(base, nmemb, size, cmp);
-    }
-}
-
-void radix_sort(void *base, size_t nmemb, size_t size, cmp_fn_t cmp)
-{
-}
-
-void bubble_sort(void *base, size_t nmemb, size_t size, cmp_fn_t cmp)
-{
-}
+#include "sort.h"
 
 int main()
 {

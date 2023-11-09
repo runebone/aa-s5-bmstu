@@ -20,6 +20,7 @@ add_executable(lab_03
     sort_bitonic.cpp
     sort_bubble.cpp
     sort_radix.cpp
+    dbg.cpp
     )
 
 # add_executable(lab_03_test

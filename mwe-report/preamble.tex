@@ -9,10 +9,11 @@
 \usepackage{multirow}
 
 \usepackage{tikz}
-% \usepackage{pgfplots}
+\usetikzlibrary{shapes, shapes.geometric, arrows, arrows.meta, positioning}
 
 \usepackage{caption}
 \captionsetup{labelsep=endash}
+% \captionsetup[lstlisting]{justification=raggedright,singlelinecheck=off}
 \captionsetup[figure]{name={Рисунок}}
 
 \usepackage{amsmath}
@@ -23,10 +24,11 @@
 \geometry{top=20mm}
 \geometry{bottom=20mm}
 
-\usepackage{enumitem} % \begin{itemize}[leftmargin=*] to remove indents
+\usepackage{enumitem}
 
 % Переопределение стандартных \section, \subsection, \subsubsection по ГОСТу;
 
+% \usepackage{titlesec}
 \usepackage{titlesec}[explicit]
 \titleformat{name=\section,numberless}[block]{\normalfont\large\bfseries\centering}{}{0pt}{}
 \titleformat{\section}[block]{\normalfont\large\bfseries}{\thesection}{1em}{}
@@ -39,6 +41,29 @@
 \titleformat{\subsubsection}[hang]
 {\bfseries\large}{\thesubsubsection}{1em}{}
 \titlespacing\subsubsection{\parindent}{*2}{*2}
+
+% This works fine instead
+% \usepackage{etoolbox}
+% \patchcmd{\section}{\normalfont}{\centering\normalfont}{}{}
+% \patchcmd{\section}{\Lare}{\centering\large}{}{}
+% \patchcmd{\section}{\Large}{\large}{}{}
+% \patchcmd{\subsubsection}{\normalsize}{\large}{}{}
+
+% \patchcmd{\section}{\bfseries}{\bfseries\hspace{1em}}{}{}
+% \patchcmd{\subsection}{\bfseries}{\bfseries\hspace{1em}}{}{}
+% \patchcmd{\subsubsection}{\bfseries}{\bfseries\hspace{1em}}{}{}
+
+\usepackage{url}
+% \def\UrlOrds{\do\\\do\_\do\-\do\/\do\|\do\;\do\,\do\?\do\+\do\=\do\#\do\*\do\~\do\'\do\"}
+% \gappto{\UrlBreaks}{\UrlOrds}
+
+% \expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks%  save the current one
+%   \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+%   \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+%   \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+%   \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+%   \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+%   \do\Y\do\Z}
 
 % Переопределение их отступов до и после для 1.5 интервала во всем документе
 \usepackage{setspace}
@@ -56,6 +81,8 @@
 \usepackage[pdftex]{hyperref}
 \hypersetup{hidelinks}
 
+% \numberwithin{equation}{section}
+
 % Дополнительное окружения для подписей
 \usepackage{array}
 \newenvironment{signstabular}[1][1]{
@@ -64,6 +91,10 @@
 }{
 	\endtabular
 }
+
+\usepackage{enumitem} 
+\setenumerate[0]{label=\arabic*)} % Изменение вида нумерации списков
+\renewcommand{\labelitemi}{---}
 
 % Листинги 
 \usepackage{courier}
@@ -76,7 +107,6 @@
 	language=C++,   					% выбор языка для подсветки	
 	numbers=left,						% где поставить нумерацию строк (слева\справа)
 	numbersep=5pt,
-	numberstyle=,%\tiny,					    % размер шрифта для номеров строк
 	% stepnumber=1,						% размер шага между двумя номерами строк
 	xleftmargin=17pt,
 	% showstringspaces=false,
@@ -89,12 +119,13 @@
 	escapeinside={\#*}{*)},				% если нужно добавить комментарии в коде
 	inputencoding=utf8x,
 	backgroundcolor=\color{white},
+	numberstyle=,%\tiny,					    % размер шрифта для номеров строк
 	keywordstyle=\color{blue},
 	stringstyle=\color{red!90!black}, % color of text in ""
 	commentstyle=\color{green!50!black}
 }
 \lstset{
- morekeywords={size_t}
+ morekeywords={size_t, likely}
 }
 
 \lstset{
@@ -167,6 +198,66 @@
 	{Я}{{\selectfont\char223}}1
 }
 
+% \lstset{
+% 	basicstyle=\footnotesize\ttfamily,
+% 	language=[Sharp]C, % Или другой ваш язык -- см. документацию пакета
+%     captionpos=t,
+% 	commentstyle=\color{comment},
+% 	numbers=left,
+% 	numberstyle=\tiny\color{plain},
+% 	numbersep=5pt,
+% 	tabsize=4,
+% 	extendedchars=\true,
+% 	breaklines=true,
+% 	keywordstyle=\color{blue},
+% 	frame=b,
+% 	stringstyle=\ttfamily\color{string}\ttfamily,
+% 	showspaces=false,
+% 	showtabs=false,
+% 	xleftmargin=17pt,
+% 	framexleftmargin=17pt,
+% 	framexrightmargin=5pt,
+% 	framexbottommargin=4pt,
+% 	showstringspaces=false,
+% 	inputencoding=utf8x,
+% 	keepspaces=true
+% }
+
+
+% \DeclareCaptionLabelSeparator{line}{\ --\ }
+% \DeclareCaptionFont{white}{\color{white}}
+% \DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43,0.35,0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+% \captionsetup[lstlisting]{
+% 	format=listing,
+% 	labelfont=white,
+% 	textfont=white,
+% 	singlelinecheck=false,
+% 	margin=0pt,
+% 	font={bf,footnotesize},
+% 	labelsep=line
+% }
+
+% \usepackage[cache=false, newfloat]{minted}
+% \newenvironment{code}{\captionsetup{type=listing, singlelinecheck=false, labelsep=endash}}{}
+% \SetupFloatingEnvironment{listing}{name=Листинг}
+
+% % Для квадратных скобок
+% \usepackage{array}
+% \DeclareMathOperator{\rank}{rank}
+% \makeatletter
+% \newenvironment{sqcases}{%
+% 	\matrix@check\sqcases\env@sqcases
+% }{%
+% 	\endarray\right.%
+% }
+% \def\env@sqcases{%
+% 	\let\@ifnextchar\new@ifnextchar
+% 	\left\lbrack
+% 	\def\arraystretch{1.2}%
+% 	\array{@{}l@{\quad}l@{}}%
+% }
+% \makeatother
+
 % Работа с изображениями и таблицами; переопределение названий по ГОСТу
 \usepackage{caption}
 \captionsetup[figure]{name={Рисунок},labelsep=endash}
@@ -186,7 +277,29 @@
 \renewcommand\@biblabel[1]{#1.} % [1] -> 1. in bibliography
 \makeatother
 
+% \usepackage{color}
+% \usepackage[cache=false, newfloat]{minted}
+% \newenvironment{code}{\captionsetup{type=listing, singlelinecheck=false, labelsep=endash}}{}
+% \SetupFloatingEnvironment{listing}{name=Листинг}
+
+\usepackage{float} % Place figures anywhere you want; ignore floating
+
 \usepackage{ragged2e} % Перенос слов на следующую строку
 \usepackage{pdfpages}
 
+\usepackage{threeparttable}
+
 \usepackage{blindtext}
+
+% \usepackage[
+%     backend=biber,
+% 	style=gost-numeric,
+% 	% style=numeric-comp,
+% 	language=auto,
+% 	autolang=other,
+% 	sorting=none
+% ]{biblatex}
+% \addbibresource{bibliography.bib}
+% \usepackage{xparse} % \NewDocumentCommand for creating custom commands
+% \NewDocumentCommand{\printbib}{m}
+% {\printbibliography[title={#1}]\addcontentsline{toc}{section}{#1}}

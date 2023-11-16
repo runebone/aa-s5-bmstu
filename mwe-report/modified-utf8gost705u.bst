@@ -1029,10 +1029,12 @@ FUNCTION {format.url}
     {
         accessed empty$
         { after.sentence 'output.state :=
-            "--- Режим доступа: " url * "" *
+            % "--- Режим доступа: " url * "" *
+            "--- URL: " url * "" *
         }
         { after.sentence 'output.state :=
-            "--- Режим доступа: " url * " (дата обращения: " * accessed * ")" *
+            % "--- Режим доступа: " url * " (дата обращения: " * accessed * ")" *
+            "--- URL: " url * " (Дата обращения: " * accessed * ")" *
         }
         if$
     }

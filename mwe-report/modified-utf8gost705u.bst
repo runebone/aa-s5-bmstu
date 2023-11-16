@@ -1034,7 +1034,7 @@ FUNCTION {format.url}
         }
         { after.sentence 'output.state :=
             % "--- Режим доступа: " url * " (дата обращения: " * accessed * ")" *
-            "--- URL: " url * " (Дата обращения: " * accessed * ")" *
+            "--- URL: " url * " (дата обращения: " * accessed * ")" *
         }
         if$
     }

@@ -13,10 +13,10 @@
 
 \usepackage{caption}
 \captionsetup{labelsep=endash}
-% \captionsetup[lstlisting]{justification=raggedright,singlelinecheck=off}
 \captionsetup[figure]{name={Рисунок}}
 
 \usepackage{amsmath}
+\usepackage{amsfonts}
 
 \usepackage{geometry}
 \geometry{left=30mm}
@@ -26,9 +26,12 @@
 
 \usepackage{enumitem}
 
-% Переопределение стандартных \section, \subsection, \subsubsection по ГОСТу;
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{adjustbox}
+\usepackage{threeparttable}
 
-% \usepackage{titlesec}
+% Переопределение стандартных \section, \subsection, \subsubsection по ГОСТу;
 \usepackage{titlesec}[explicit]
 \titleformat{name=\section,numberless}[block]{\normalfont\large\bfseries\centering}{}{0pt}{}
 \titleformat{\section}[block]{\normalfont\large\bfseries}{\thesection}{1em}{}
@@ -42,28 +45,7 @@
 {\bfseries\large}{\thesubsubsection}{1em}{}
 \titlespacing\subsubsection{\parindent}{*2}{*2}
 
-% This works fine instead
-% \usepackage{etoolbox}
-% \patchcmd{\section}{\normalfont}{\centering\normalfont}{}{}
-% \patchcmd{\section}{\Lare}{\centering\large}{}{}
-% \patchcmd{\section}{\Large}{\large}{}{}
-% \patchcmd{\subsubsection}{\normalsize}{\large}{}{}
-
-% \patchcmd{\section}{\bfseries}{\bfseries\hspace{1em}}{}{}
-% \patchcmd{\subsection}{\bfseries}{\bfseries\hspace{1em}}{}{}
-% \patchcmd{\subsubsection}{\bfseries}{\bfseries\hspace{1em}}{}{}
-
 \usepackage{url}
-% \def\UrlOrds{\do\\\do\_\do\-\do\/\do\|\do\;\do\,\do\?\do\+\do\=\do\#\do\*\do\~\do\'\do\"}
-% \gappto{\UrlBreaks}{\UrlOrds}
-
-% \expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks%  save the current one
-%   \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
-%   \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
-%   \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
-%   \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
-%   \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
-%   \do\Y\do\Z}
 
 % Переопределение их отступов до и после для 1.5 интервала во всем документе
 \usepackage{setspace}
@@ -80,8 +62,6 @@
 % Гиперссылки
 \usepackage[pdftex]{hyperref}
 \hypersetup{hidelinks}
-
-% \numberwithin{equation}{section}
 
 % Дополнительное окружения для подписей
 \usepackage{array}
@@ -113,7 +93,7 @@
 	numbersep=5pt,						% как далеко отстоят номера строк от подсвечиваемого кода
 	frame=single,						% рисовать рамку вокруг кода
 	tabsize=4,							% размер табуляции по умолчанию равен 4 пробелам
-	captionpos=t,						% позиция заголовка вверху [t] или внизу [b]
+	captionpos=b,						% позиция заголовка вверху [t] или внизу [b]
 	breaklines=true,					
 	breakatwhitespace=true,				% переносить строки только если есть пробел
 	escapeinside={\#*}{*)},				% если нужно добавить комментарии в коде
@@ -198,66 +178,6 @@
 	{Я}{{\selectfont\char223}}1
 }
 
-% \lstset{
-% 	basicstyle=\footnotesize\ttfamily,
-% 	language=[Sharp]C, % Или другой ваш язык -- см. документацию пакета
-%     captionpos=t,
-% 	commentstyle=\color{comment},
-% 	numbers=left,
-% 	numberstyle=\tiny\color{plain},
-% 	numbersep=5pt,
-% 	tabsize=4,
-% 	extendedchars=\true,
-% 	breaklines=true,
-% 	keywordstyle=\color{blue},
-% 	frame=b,
-% 	stringstyle=\ttfamily\color{string}\ttfamily,
-% 	showspaces=false,
-% 	showtabs=false,
-% 	xleftmargin=17pt,
-% 	framexleftmargin=17pt,
-% 	framexrightmargin=5pt,
-% 	framexbottommargin=4pt,
-% 	showstringspaces=false,
-% 	inputencoding=utf8x,
-% 	keepspaces=true
-% }
-
-
-% \DeclareCaptionLabelSeparator{line}{\ --\ }
-% \DeclareCaptionFont{white}{\color{white}}
-% \DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43,0.35,0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
-% \captionsetup[lstlisting]{
-% 	format=listing,
-% 	labelfont=white,
-% 	textfont=white,
-% 	singlelinecheck=false,
-% 	margin=0pt,
-% 	font={bf,footnotesize},
-% 	labelsep=line
-% }
-
-% \usepackage[cache=false, newfloat]{minted}
-% \newenvironment{code}{\captionsetup{type=listing, singlelinecheck=false, labelsep=endash}}{}
-% \SetupFloatingEnvironment{listing}{name=Листинг}
-
-% % Для квадратных скобок
-% \usepackage{array}
-% \DeclareMathOperator{\rank}{rank}
-% \makeatletter
-% \newenvironment{sqcases}{%
-% 	\matrix@check\sqcases\env@sqcases
-% }{%
-% 	\endarray\right.%
-% }
-% \def\env@sqcases{%
-% 	\let\@ifnextchar\new@ifnextchar
-% 	\left\lbrack
-% 	\def\arraystretch{1.2}%
-% 	\array{@{}l@{\quad}l@{}}%
-% }
-% \makeatother
-
 % Работа с изображениями и таблицами; переопределение названий по ГОСТу
 \usepackage{caption}
 \captionsetup[figure]{name={Рисунок},labelsep=endash}
@@ -277,17 +197,10 @@
 \renewcommand\@biblabel[1]{#1.} % [1] -> 1. in bibliography
 \makeatother
 
-% \usepackage{color}
-% \usepackage[cache=false, newfloat]{minted}
-% \newenvironment{code}{\captionsetup{type=listing, singlelinecheck=false, labelsep=endash}}{}
-% \SetupFloatingEnvironment{listing}{name=Листинг}
-
 \usepackage{float} % Place figures anywhere you want; ignore floating
 
 \usepackage{ragged2e} % Перенос слов на следующую строку
 \usepackage{pdfpages}
-
-\usepackage{threeparttable}
 
 \usepackage{blindtext}
 

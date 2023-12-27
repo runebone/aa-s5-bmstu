@@ -80,6 +80,9 @@
 \usepackage{courier}
 \usepackage{listings}
 \usepackage{chngcntr} % Listings counter within section set main.tex after begin document
+\usepackage{float} % Place figures anywhere you want; ignore floating
+\floatstyle{plaintop}
+\newfloat{code}{H}{myc}
 
 % Для листинга кода:
 \lstset{
@@ -196,8 +199,6 @@
 \makeatletter
 \renewcommand\@biblabel[1]{#1.} % [1] -> 1. in bibliography
 \makeatother
-
-\usepackage{float} % Place figures anywhere you want; ignore floating
 
 \usepackage{ragged2e} % Перенос слов на следующую строку
 \usepackage{pdfpages}

@@ -121,7 +121,7 @@ class AtomicDict {
     using word_t = Word<N, BUFSIZE>;
     using ngram_t = wchar_t[N + 1];
 public:
-    AtomicDict(const char *filename) : m_filename(filename) {}
+    AtomicDict(const char *filename) : m_filename(filename) { m_words.reserve(255); } // @ HACK FIXME
 
     bool add(wchar_t word[BUFSIZE]) {
         bool flag_has_word = true;
@@ -237,7 +237,7 @@ void worker(FILE *file, std::mutex &fpmutex, AtomicDict<N, BUFSIZE> *pdict) {
     wchar_t word[BUFSIZE];
 
     /* while (atomic_read(file, word, fpmutex) == 0) { */
-    for (int i = 0; atomic_read(file, word, fpmutex) == 0 && i < 1; ++i) { // FIXME works strangely when i < k, k > 1
+    for (int i = 0; atomic_read(file, word, fpmutex) == 0 && i < 20; ++i) { // FIXME works strangely when i < k, k > 1
         if (pdict->add(word)) {
             unsigned long index = pdict->get_index(word);
             Word<N, BUFSIZE> &w = pdict->get_word(index);
@@ -259,7 +259,7 @@ int main(int argc, char *argv[]) {
     /* wchar_t word[BUFFER_SIZE]; */
     std::mutex fpmutex;
 
-    AtomicDict<3> dict{filename};
+    AtomicDict<4> dict{filename};
 
     /* worker(file, fpmutex, std::make_shared<AtomicDict<3>>(dict)); */
     worker(file, fpmutex, &dict);
